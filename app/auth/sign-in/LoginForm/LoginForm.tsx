@@ -7,10 +7,22 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { schema } from "./schema";
 
+const countryOptions = [
+  { label: "United States", value: "us" },
+  { label: "Canada", value: "ca" },
+  { label: "Mexico", value: "mx" },
+  { label: "Mexico", value: "mx2" },
+  { label: "Mexico", value: "mx3" },
+  { label: "Mexico", value: "mx4" },
+  { label: "Mexico", value: "mx5" },
+  { label: "Mexico", value: "mx6" },
+];
+
 const LoginForm = () => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors, isValid, isSubmitted },
   } = useForm({
     resolver: yupResolver(schema),
@@ -42,6 +54,21 @@ const LoginForm = () => {
         error={errors.password}
         type="password"
       />
+
+      {/* <FormSelect
+        name="country"
+        control={control}
+        options={countryOptions}
+        label="Select a country"
+      /> */}
+
+      {/* <PercentageIndicator/> */}
+
+      {/* 
+      <CategoryButton title="Company" active>
+        <FlatIcon />
+      </CategoryButton> */}
+
       <div className="flex justify-between items-center my-4">
         <FormCheckbox
           id="remember_me"
