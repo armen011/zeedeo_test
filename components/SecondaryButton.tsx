@@ -7,6 +7,7 @@ type SecondaryButtonProps = {
   text: string;
   type?: "submit" | "reset" | "button";
   className?: string;
+  onClick?: () => void;
 };
 
 const SecondaryButton: FC<SecondaryButtonProps> = ({
@@ -15,9 +16,11 @@ const SecondaryButton: FC<SecondaryButtonProps> = ({
   text,
   type = "submit",
   className,
+  onClick,
 }) => {
   return (
     <button
+      onClick={onClick}
       disabled={disabled || loading}
       className={twMerge(
         "w-full h-[52px] text-16 rounded-[100px] py-4 font-semibold text-white",
