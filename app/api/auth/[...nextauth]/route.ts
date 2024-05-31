@@ -1,3 +1,5 @@
+import { logInUser } from "@/utils/auth/sign-in";
+import { getUserDetails } from "@/utils/user/details";
 import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -12,16 +14,35 @@ const authOptions: AuthOptions = {
           placeholder: "jsmith@example.com",
         },
         password: { label: "Password", type: "password" },
+        remember: { label: "remember", type: "text" },
       },
       async authorize(credentials) {
-        if (!credentials) {
+        if (!credentials?.email) {
           return null;
         }
 
+        const data = await logInUser(credentials);
         try {
-          return { email: "", id: "" };
+          const basInfo = await getUserDetails(data.idToken);
+          return {
+            email: basInfo.email,
+            id: `${basInfo.id}`,
+            accessToken: data.accessToken,
+            idToken: data.idToken,
+            accessTokenExpiration: data.accessTokenExpiration,
+            refreshToken: data.refreshToken,
+            remember: Boolean(credentials?.remember),
+          };
         } catch (err) {
-          return null;
+          return {
+            email: credentials.email,
+            id: "",
+            accessToken: data.accessToken,
+            idToken: data.idToken,
+            accessTokenExpiration: data.accessTokenExpiration,
+            refreshToken: data.refreshToken,
+            remember: Boolean(credentials?.remember),
+          };
         }
       },
     }),
@@ -35,53 +56,46 @@ const authOptions: AuthOptions = {
     error: "/not-found",
   },
   callbacks: {
-    // async jwt({ token, user }) {
-    //   const Access = user ? `${user.access_token}` : token.Access;
-    //   const Bearer = user ? `Bearer ${user.id_token}` : token.Bearer;
-    //   const Refresh = user ? `${user.refresh_token}` : token.Refresh;
-    //   if (!Access || !Refresh || !Bearer) {
-    //     throw new Error("Access token is missing");
-    //   }
-    //   try {
-    //     // get tenant and also check if the accessToken is valid or not
-    //     const { tenant } = await Utils.getUserDetails({ Access, Bearer });
-    //     return { ...token, Access, Refresh, Bearer, tenant };
-    //   } catch (err) {
-    //     try {
-    //       // refresh access and id tokens
-    //       const newTokens = await Utils.refreshAccessToken(Refresh);
-    //       const { tenant } = await Utils.getUserDetails({
-    //         Access: newTokens.Access,
-    //         Bearer: newTokens.Bearer,
-    //       });
-    //       return { ...token, ...newTokens, tenant };
-    //     } catch (refreshErr) {
-    //       throw new Error("Unable to refresh access token");
-    //     }
-    //   }
-    // },
-    // async session({ session, token, user }) {
-    //   const Access = user ? `${user.access_token}` : token.Access;
-    //   const Bearer = user ? `Bearer ${user.id_token}` : token.Bearer;
-    //   const Refresh = user ? `${user.refresh_token}` : token.Refresh;
-    //   if (!Access || !Refresh || !Bearer) {
-    //     return session;
-    //   }
-    //   try {
-    //     const userDetails = await Utils.getUserDetails({ Access, Bearer });
-    //     return {
-    //       ...session,
-    //       user: {
-    //         ...session.user,
-    //         ...userDetails,
-    //         accessToken: Access,
-    //         bearerToken: Bearer,
-    //       },
-    //     };
-    //   } catch (err) {
-    //     throw new Error("Unable to get user details");
-    //   }
-    // },
+    async jwt({ token, user }) {
+      const Access = user ? `${user.accessToken}` : token.Access;
+      const Bearer = user ? `${user.idToken}` : token.Bearer;
+      const Refresh = user?.remember ? user.refreshToken : token.Refresh;
+
+      const Expiration = user ? user.accessTokenExpiration : token.Expiration;
+
+      if (!Access || !Bearer) {
+        throw new Error("Access token is missing");
+      }
+
+      return { ...token, Access, Refresh, Bearer, Expiration };
+    },
+    async session({ session, token, user }) {
+      const Access = user ? `${user.accessToken}` : token.Access;
+      const Bearer = user ? `${user.idToken}` : token.Bearer;
+
+      if (!Access || !Bearer) {
+        return session;
+      }
+      try {
+        const basInfo = await getUserDetails(Bearer);
+
+        return {
+          ...session,
+          user: {
+            email: basInfo.email,
+            name: basInfo.name,
+            isOnBoarded: true,
+          },
+        };
+      } catch (err) {
+        return {
+          ...session,
+          user: {
+            isOnBoarded: false,
+          },
+        };
+      }
+    },
   },
 };
 
