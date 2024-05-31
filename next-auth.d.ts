@@ -10,9 +10,16 @@ declare module "next-auth" {
       accessToken?: string;
       bearerToken?: string;
       email?: string;
+      isOnBoarded?: boolean;
     } & DefaultSession["user"];
   }
-  interface User extends AuthResponseType {}
+  interface User extends AuthResponseType {
+    accessToken: string;
+    idToken: string;
+    accessTokenExpiration: number;
+    refreshToken: string | undefined;
+    remember: boolean;
+  }
 }
 
 declare module "next-auth/jwt" {
@@ -20,5 +27,6 @@ declare module "next-auth/jwt" {
     Access: string | undefined;
     Bearer: string | undefined;
     Refresh: string | undefined;
+    Expiration: number | undefined;
   }
 }

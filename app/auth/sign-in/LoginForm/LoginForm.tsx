@@ -6,12 +6,16 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { schema } from "./schema";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, isSubmitted },
+    formState: { errors, isValid, isSubmitted, isSubmitting },
+    setError,
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -21,9 +25,25 @@ const LoginForm = () => {
 
   return (
     <form
-      onSubmit={handleSubmit((data) => {
-        // mutation.mutate(data);
-        console.log("DATA", data);
+      onSubmit={handleSubmit(async (data) => {
+        const response = await signIn("credentials", {
+          redirect: false,
+          email: data.email,
+          password: data.password,
+          remember: data.remember_me,
+        });
+        if (response?.ok) {
+          router.push("/");
+        } else if (response?.error === "verification") {
+          router.push(`/auth/verification?email=${data.email}`);
+        } else {
+          console.log("Response ====>", response);
+
+          setError("email", {
+            message: response?.error || "User is not defined",
+            type: "onChange",
+          });
+        }
       })}
       className="flex flex-col gap-2"
     >
@@ -54,7 +74,7 @@ const LoginForm = () => {
       </div>
       <PrimaryButton
         disabled={isSubmitted && (!isValid || !isSubmitted)}
-        loading={false}
+        loading={isSubmitting}
         text="SIGN IN"
       />
       <div className="pt-6 mx-auto">

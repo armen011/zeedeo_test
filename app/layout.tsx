@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import { Inter, Source_Sans_3 } from "next/font/google";
+import { Source_Sans_3 } from "next/font/google";
+
 import "./globals.css";
+import Providers from "./Providers";
 
 const sourceSansPro = Source_Sans_3({ subsets: ["latin"] });
 
@@ -17,7 +19,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={sourceSansPro.className}>{children}</body>
+      <Providers>
+        <body className={sourceSansPro.className}>{children}</body>
+      </Providers>
     </html>
   );
 }
