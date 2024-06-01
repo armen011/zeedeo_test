@@ -57,8 +57,8 @@ const Catagories = () => {
   const router = useRouter();
 
   return (
-    <div className="flex-grow flex flex-col justify-between items-center overflow-hidden">
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-4 max-h-[calc(100%-64px)] sm:max-h-[unset] overflow-auto">
+    <div className="flex-grow flex flex-col sm:justify-between items-center overflow-hidden">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-4">
         {companyCategories.map((item) => (
           <CategoryButton
             onClick={() =>
@@ -68,14 +68,14 @@ const Catagories = () => {
             title={item.title}
             active={selectedCategory?.value === item.title}
           >
-            <item.icon />
+            <item.icon className="w-6 sm:w-10" />
           </CategoryButton>
         ))}
       </div>
       <SecondaryButton
         disabled={!selectedCategory}
         text="Next"
-        className="w-full max-w-[258px] text-16 h-[45px] items-center text-white py-[unset]"
+        className="w-full max-w-[258px] text-16 h-[45px] items-center text-white py-[unset] mt-10"
         onClick={() => router.push(`/on-boarding/${selectedCategory?.type}`)}
         type="button"
       />

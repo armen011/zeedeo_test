@@ -14,8 +14,8 @@ const OnBoardingPage = () => {
         className="h-full hidden lg:block animate-smooth-appear"
         priority
       />
-      <div className="flex-grow h-full bg-white p-6 md:p-9">
-        <div className="w-full h-full flex flex-col max-w-[750px] mx-auto lg:mx-[unset] md:pt-[100px] lg:pl-[44px] max-h-full overflow-hidden">
+      <div className="flex-grow h-full flex flex-col justify-center bg-white p-6 md:p-9">
+        <div className="w-full lg:h-full flex flex-col max-w-[750px] mx-auto lg:mx-[unset] md:pt-[100px] lg:pl-[44px]">
           <h1 className="text-2xl font-semibold text-[#191919] mb-4 ml-3">
             Select your profile
           </h1>
