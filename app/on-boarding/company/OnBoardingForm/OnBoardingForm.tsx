@@ -9,6 +9,7 @@ import SecondStep from "./SecondStep";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "./schema";
 import { stepValidationKeys } from "./utils";
+import ThirdStep from "./ThirdStep";
 
 type OnBoardingFormProps = {
   step: number;
@@ -17,7 +18,7 @@ type OnBoardingFormProps = {
 const steps = {
   [0]: FirstStep,
   [1]: SecondStep,
-  [2]: FirstStep,
+  [2]: ThirdStep,
 };
 
 const OnBoardingForm: FC<OnBoardingFormProps> = ({ step = 0 }) => {

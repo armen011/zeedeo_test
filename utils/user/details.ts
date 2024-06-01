@@ -35,25 +35,23 @@ type UserType = {
 };
 
 export const getUserDetails = async (idToken: string) => {
-  try {
-    const userData = await axios.get<UserType>(userLogInUrl, {
-      headers: { Authorization: idToken },
-    });
-    return {
-      id: userData.data.body.id,
-      email: userData.data.body.email,
-      name: userData.data.body.first_name,
-      isOnboarded: userData.data.body.onboarded === 1,
-    };
-  } catch (err) {
-    const companyData = await axios.get<UserType>(companyLogInUrl, {
-      headers: { Authorization: idToken },
-    });
-    return {
-      id: companyData.data.body.id,
-      email: companyData.data.body.email,
-      name: companyData.data.body.first_name,
-      isOnboarded: companyData.data.body.onboarded === 1,
-    };
-  }
+  const userData = await axios.get<UserType>(userLogInUrl, {
+    headers: { Authorization: idToken },
+  });
+  return {
+    id: userData.data.body.id,
+    email: userData.data.body.email,
+    name: userData.data.body.first_name,
+    isOnboarded: userData.data.body.onboarded === 1,
+  };
 };
+
+// const companyData = await axios.get<UserType>(companyLogInUrl, {
+//   headers: { Authorization: idToken },
+// });
+// return {
+//   id: companyData.data.body.id,
+//   email: companyData.data.body.email,
+//   name: companyData.data.body.first_name,
+//   isOnboarded: companyData.data.body.onboarded === 1,
+// };

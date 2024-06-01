@@ -16,7 +16,7 @@ export const schema = yup.object().shape({
     )
     .required("Year is required")
     .required("Years of founding is required"),
-  goals: yup.array().of(yup.number()).required(),
+  goals: yup.array().of(yup.number()).min(1, "Select at least one goal."),
   gender_percent: yup.number().required(),
   employees_range: yup.string().required("Employees range is required"),
 });

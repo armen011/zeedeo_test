@@ -76,11 +76,7 @@ const Catagories = () => {
         disabled={!selectedCategory}
         text="Next"
         className="w-full max-w-[258px] text-16 h-[45px] items-center text-white py-[unset]"
-        onClick={() =>
-          router.push(
-            `/on-boarding/${selectedCategory?.type}?category=${selectedCategory?.value}`
-          )
-        }
+        onClick={() => router.push(`/on-boarding/${selectedCategory?.type}`)}
         type="button"
       />
     </div>
