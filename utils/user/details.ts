@@ -1,12 +1,12 @@
 import axios from "axios";
 
-const baseUrl = process.env.NEXT_BASE_URL || "";
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
 
 const userLogInUrl = `${baseUrl}/user`;
 const companyLogInUrl = `${baseUrl}/logged-in-company`;
 
 type ResponseString = string | null | undefined;
-type ResponseNumber = string | null | undefined;
+type ResponseNumber = number | null | undefined;
 
 type UserType = {
   body: {

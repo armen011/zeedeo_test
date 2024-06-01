@@ -23,7 +23,7 @@ const SecondaryButton: FC<SecondaryButtonProps> = ({
       onClick={onClick}
       disabled={disabled || loading}
       className={twMerge(
-        "w-full h-[52px] text-16 rounded-[100px] py-4 font-semibold text-white",
+        "w-full h-[52px] text-16 rounded-[100px] py-4 font-semibold text-white transition-colors duration-300",
         disabled
           ? "bg-gray-500 cursor-not-allowed text-opacity-70"
           : "bg-[#38B469] hover:bg-opacity-80",

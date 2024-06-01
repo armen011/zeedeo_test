@@ -4,6 +4,7 @@ import FormLabel from "./FormLabel";
 import FormError from "./FormError";
 import ShowIcon from "@/assets/icons/show_password.svg";
 import HideIcon from "@/assets/icons/hide_password.svg";
+import { twMerge } from "tailwind-merge";
 
 type ShowPasswordProps = {
   type: "password" | "text";
@@ -31,6 +32,7 @@ type FormInputProps<T extends string> = {
   placeholder?: string;
   error?: FieldError;
   type?: "password" | "text";
+  className?: string;
 } & UseFormRegisterReturn<T>;
 
 const FormInput = <T extends string>(
@@ -40,6 +42,7 @@ const FormInput = <T extends string>(
     placeholder,
     error,
     type = "text",
+    className,
     ...otherProp
   }: FormInputProps<T>,
   ref: ForwardedRef<HTMLInputElement> | null
@@ -49,7 +52,7 @@ const FormInput = <T extends string>(
     setInputType((prev) => (prev === "password" ? "text" : "password"));
   };
   return (
-    <div className="flex flex-col">
+    <div className={twMerge("flex flex-col", className)}>
       <FormLabel id={id} label={label} />
       <div className="border rounded-[100px] border-[#3B0F84] relative overflow-hidden">
         <input

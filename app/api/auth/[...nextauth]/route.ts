@@ -85,6 +85,7 @@ const authOptions: AuthOptions = {
             email: basInfo.email,
             name: basInfo.name,
             isOnBoarded: true,
+            token: Bearer,
           },
         };
       } catch (err) {
@@ -92,6 +93,7 @@ const authOptions: AuthOptions = {
           ...session,
           user: {
             isOnBoarded: false,
+            token: Bearer,
           },
         };
       }

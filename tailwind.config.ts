@@ -21,6 +21,20 @@ const config: Config = {
         36: ["36px", "46px"],
         42: ["42px", "52px"],
       },
+      keyframes: {
+        ["open-from-left"]: {
+          "0%": { width: "0px" },
+          "100%": { width: "100%" },
+        },
+        ["smooth-opacity"]: {
+          "0%": { opacity: "0.2" },
+          "100%": { opacity: "1" },
+        },
+      },
+      animation: {
+        ["left-open"]: "open-from-left 300ms ease-in-out",
+        ["smooth-appear"]: "smooth-opacity 300ms ease-in-out",
+      },
     },
   },
   plugins: [],

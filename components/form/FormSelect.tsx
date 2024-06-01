@@ -1,11 +1,14 @@
+"use client";
+
 import { FC } from "react";
 import { Controller, Control } from "react-hook-form";
 import FormError from "./FormError";
 import FormLabel from "./FormLabel";
-import Select from "react-select";
+import { twMerge } from "tailwind-merge";
+import dynamic from "next/dynamic";
 
 type FormSelectProps = {
-  name: string;
+  id: string;
   control: Control<any>;
   options: {
     label: string;
@@ -13,27 +16,39 @@ type FormSelectProps = {
   }[];
   label: string;
   error?: string;
+  placeholder?: string;
+  className?: string;
 };
 
+const Select = dynamic(() => import("react-select"), { ssr: false });
+
 const FormSelect: FC<FormSelectProps> = ({
-  name,
+  id,
   control,
   options,
   label,
   error,
+  placeholder,
+  className,
 }) => {
   return (
-    <div className="flex flex-col">
-      <FormLabel id={name} label={label} />
-      <div className="border rounded-[100px] border-[#3B0F84] relative">
+    <div className={twMerge("flex flex-col", className)}>
+      <FormLabel id={id} label={label} />
+      <div className="border rounded-[100px] border-[#3B0F84] relative h-[46px]">
         <Controller
-          name={name}
+          name={id}
           control={control}
           render={({ field: { onChange, value } }) => (
             <Select
+              id={id}
+              name={id}
               options={options}
               value={options.find((c) => c.value === value)}
-              onChange={(val) => onChange(val?.value)}
+              onChange={(target) => {
+                const typedTarget = target as { value: string };
+                onChange(typedTarget?.value);
+              }}
+              placeholder={placeholder}
               styles={{
                 control: (base) => ({
                   ...base,
@@ -41,6 +56,8 @@ const FormSelect: FC<FormSelectProps> = ({
                   boxShadow: "none",
                   marginRight: "12px",
                   marginLeft: "12px",
+                  background: "transparent",
+                  height: "46px",
                 }),
                 menu: (base) => ({
                   ...base,

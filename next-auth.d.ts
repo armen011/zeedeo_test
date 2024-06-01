@@ -7,8 +7,7 @@ type AuthResponseType = {};
 declare module "next-auth" {
   interface Session {
     user: {
-      accessToken?: string;
-      bearerToken?: string;
+      token?: string;
       email?: string;
       isOnBoarded?: boolean;
     } & DefaultSession["user"];
