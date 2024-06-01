@@ -13,12 +13,12 @@ type FirstStepProps = {
   controller: Control<FieldValues, any>;
 };
 const FirstStep: FC<FirstStepProps> = ({ register, controller }) => {
-  const { data } = useSession();
+  const { data, status } = useSession();
 
   const { data: options } = useQuery({
-    queryKey: ["country-first-step-options"],
-    queryFn: () => getFirstStepOptions(data?.user.token || ""),
-    enabled: !data?.user.token,
+    queryKey: ["country-first-step-options", status],
+    queryFn: getFirstStepOptions(data?.user.token || ""),
+    enabled: !!data?.user.token && status === "authenticated",
   });
 
   return (

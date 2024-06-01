@@ -11,7 +11,7 @@ export type LocationDataType = {
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
 
-const getLocationUrl = `${baseUrl}/all-locations`;
+const getLocationUrl = `${baseUrl}/states`;
 
 export const getLocation = async (token: string) => {
   const locations = await axios.get<{ body?: LocationDataType[] }>(
@@ -20,6 +20,7 @@ export const getLocation = async (token: string) => {
       headers: { Authorization: token },
     }
   );
+  console.log(locations.data.body);
 
   return locations.data.body;
 };

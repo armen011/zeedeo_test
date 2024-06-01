@@ -7,20 +7,22 @@ import FormLabel from "./FormLabel";
 import { twMerge } from "tailwind-merge";
 import dynamic from "next/dynamic";
 
+type Option = {
+  label: string;
+  value: string;
+};
+
 type FormSelectProps = {
   id: string;
   control: Control<any>;
-  options: {
-    label: string;
-    value: string;
-  }[];
+  options: Option[];
   label: string;
   error?: string;
   placeholder?: string;
   className?: string;
 };
 
-const Select = dynamic(() => import("react-select"), { ssr: false });
+const Select = dynamic(() => import("react-select/async"), { ssr: false });
 
 const FormSelect: FC<FormSelectProps> = ({
   id,
@@ -48,7 +50,31 @@ const FormSelect: FC<FormSelectProps> = ({
                 const typedTarget = target as { value: string };
                 onChange(typedTarget?.value);
               }}
+              loadOptions={(inputValue, callback) => {
+                const startsWith: Option[] = [];
+                const contains: Option[] = [];
+                options.forEach((option) => {
+                  if (
+                    option.label
+                      .toLowerCase()
+                      .startsWith(inputValue.toLowerCase())
+                  ) {
+                    startsWith.push(option);
+                  } else if (
+                    option.label
+                      .toLowerCase()
+                      .includes(inputValue.toLowerCase())
+                  ) {
+                    contains.push(option);
+                  }
+                });
+                callback([...startsWith, ...contains].slice(0, 100));
+              }}
+              defaultOptions={options.length > 100 ? undefined : options}
+              isDisabled={options.length === 0}
               placeholder={placeholder}
+              pageSize={20}
+              closeMenuOnScroll={true}
               styles={{
                 control: (base) => ({
                   ...base,

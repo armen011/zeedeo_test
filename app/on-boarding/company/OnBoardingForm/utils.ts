@@ -1,7 +1,7 @@
 import { getOptions } from "@/utils/options";
 import { getLocation } from "@/utils/options/location";
 
-export const getFirstStepOptions = async (token: string) => {
+export const getFirstStepOptions = (token: string) => async () => {
   const locations = await getLocation(token);
   const locationOptions =
     locations?.map(({ country_name, id, state_name }) => ({
