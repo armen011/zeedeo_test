@@ -10,6 +10,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "./schema";
 import { stepValidationKeys } from "./utils";
 import ThirdStep from "./ThirdStep";
+import { createCompany } from "@/utils/company/create";
+import { useSession } from "next-auth/react";
 
 type OnBoardingFormProps = {
   step: number;
@@ -38,12 +40,30 @@ const OnBoardingForm: FC<OnBoardingFormProps> = ({ step = 0 }) => {
   });
   const CurrentStep = steps[step as keyof typeof steps];
   const router = useRouter();
+  const { data: userData } = useSession();
 
   return (
     <form
       className="flex-grow flex flex-col justify-between overflow-y-auto"
-      onSubmit={handleSubmit(async (data) => {
-        console.log(data);
+      onSubmit={handleSubmit(async (formData) => {
+        if (userData?.user.token) {
+          try {
+            await createCompany(
+              {
+                employees_range_id: Number(formData.employees_range),
+                goals: formData.goals?.map((goalId) => Number(goalId)) || [],
+                industry_id: Number(formData.industry),
+                location_id: Number(formData.location),
+                name: formData.name,
+                role_title: formData.role || "CEO",
+                year_of_founding: formData.founding_year,
+              },
+              userData?.user.token
+            );
+          } catch (err) {
+            console.log("Error", err);
+          }
+        }
       })}
     >
       <CurrentStep register={register} controller={control} error={errors} />
@@ -55,7 +75,7 @@ const OnBoardingForm: FC<OnBoardingFormProps> = ({ step = 0 }) => {
           className="max-w-[258px] h-[45px] py-[unset]"
         />
         <PrimaryButton
-          type={step === 2 ? "submit" : "button"}
+          type={step === 1 ? "submit" : "button"}
           onClick={() => {
             if (step < 2) {
               router.push(

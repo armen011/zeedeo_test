@@ -14,6 +14,7 @@ type OptionProps = {
 const Option: FC<OptionProps> = ({ name, isSelected, onClick }) => {
   return (
     <button
+      type="button"
       className={twMerge(
         "w-fit h-fit px-4 py-2 rounded-[13px] cursor-pointer border font-semibold text-18 transition-colors animate-smooth-appear",
         isSelected

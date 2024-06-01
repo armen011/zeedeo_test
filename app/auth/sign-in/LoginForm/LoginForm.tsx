@@ -43,7 +43,7 @@ const LoginForm = () => {
           });
         }
       })}
-      className="flex flex-col gap-2"
+      className="flex flex-col gap-2 animate-smooth-appear"
     >
       <FormInput
         id="email"

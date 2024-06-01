@@ -4,6 +4,7 @@ import {
   CognitoUser,
 } from "amazon-cognito-identity-js";
 import { poolData } from "./utils";
+import { createUser } from "../user/create";
 
 type RegisterUserPayloadType = {
   email: string;
@@ -30,7 +31,16 @@ export const registerUser = ({ email, password }: RegisterUserPayloadType) => {
       [],
       (err, result) => {
         if (result) {
-          resolve({ email: result.user.getUsername() });
+          createUser({
+            email: email,
+            email_verified: 0,
+            first_name: "missing",
+            last_name: "missing",
+            gender: 1,
+            profile_id: 1,
+          }).then(() => {
+            resolve({ email: result.user.getUsername() });
+          });
         }
         if (err?.name === "UsernameExistsException") {
           reject({ code: 400, message: "The user already exists" });
@@ -59,7 +69,6 @@ export const verifyUser = ({ email, code }: VerifyUserPayloadType) => {
     cognitoUser.confirmRegistration(code, true, (err, result) => {
       if (result) {
         resolve({ email: "" });
-        result;
       }
       if (err) {
         reject({ code: 400, message: "Incorrect OTP Code" });
