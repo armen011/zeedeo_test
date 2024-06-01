@@ -8,7 +8,6 @@ import { useForm } from "react-hook-form";
 import { schema } from "./schema";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import ProfileUpload from "@/components/ProfileUpload";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -38,15 +37,13 @@ const LoginForm = () => {
         } else if (response?.error === "verification") {
           router.push(`/auth/verification?email=${data.email}`);
         } else {
-          console.log("Response ====>", response);
-
           setError("email", {
             message: response?.error || "User is not defined",
             type: "onChange",
           });
         }
       })}
-      className="flex flex-col gap-2"
+      className="flex flex-col gap-2 animate-smooth-appear"
     >
       <FormInput
         id="email"
@@ -63,7 +60,6 @@ const LoginForm = () => {
         error={errors.password}
         type="password"
       />
-      <ProfileUpload />
       <div className="flex justify-between items-center my-4">
         <FormCheckbox
           id="remember_me"

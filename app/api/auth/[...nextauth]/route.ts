@@ -22,28 +22,16 @@ const authOptions: AuthOptions = {
         }
 
         const data = await logInUser(credentials);
-        try {
-          const basInfo = await getUserDetails(data.idToken);
-          return {
-            email: basInfo.email,
-            id: `${basInfo.id}`,
-            accessToken: data.accessToken,
-            idToken: data.idToken,
-            accessTokenExpiration: data.accessTokenExpiration,
-            refreshToken: data.refreshToken,
-            remember: Boolean(credentials?.remember),
-          };
-        } catch (err) {
-          return {
-            email: credentials.email,
-            id: "",
-            accessToken: data.accessToken,
-            idToken: data.idToken,
-            accessTokenExpiration: data.accessTokenExpiration,
-            refreshToken: data.refreshToken,
-            remember: Boolean(credentials?.remember),
-          };
-        }
+        const basInfo = await getUserDetails(data.idToken);
+        return {
+          email: basInfo.email,
+          id: `${basInfo.id}`,
+          accessToken: data.accessToken,
+          idToken: data.idToken,
+          accessTokenExpiration: data.accessTokenExpiration,
+          refreshToken: data.refreshToken,
+          remember: Boolean(credentials?.remember),
+        };
       },
     }),
   ],
@@ -76,25 +64,17 @@ const authOptions: AuthOptions = {
       if (!Access || !Bearer) {
         return session;
       }
-      try {
-        const basInfo = await getUserDetails(Bearer);
+      const basInfo = await getUserDetails(Bearer);
 
-        return {
-          ...session,
-          user: {
-            email: basInfo.email,
-            name: basInfo.name,
-            isOnBoarded: true,
-          },
-        };
-      } catch (err) {
-        return {
-          ...session,
-          user: {
-            isOnBoarded: false,
-          },
-        };
-      }
+      return {
+        ...session,
+        user: {
+          email: basInfo.email,
+          name: basInfo.name,
+          isOnBoarded: basInfo.isOnboarded,
+          token: Bearer,
+        },
+      };
     },
   },
 };

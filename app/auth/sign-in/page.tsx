@@ -5,7 +5,7 @@ import LoginForm from "./LoginForm";
 const SignInPage = () => {
   return (
     <>
-      <ZeedeoSticker className="absolute mx-auto sm:mx-[unset] sm:left-9 bottom-0 sm:bottom-9" />
+      <ZeedeoSticker className="absolute mx-auto lg:mx-[unset] lg:left-9 top-0 lg:top-[unset] lg:bottom-9" />
       <div className="w-full bg-white max-w-[500px] rounded-2xl p-6 pt-7 sm:p-9 sm:pt-10">
         <h4 className="text-36 text-[#191919] font-bold mb-2">Login</h4>
         <div className="flex items-center gap-1 mb-4">

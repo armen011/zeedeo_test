@@ -13,7 +13,7 @@ const SignUpForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, isSubmitted },
+    formState: { errors, isValid, isSubmitted, isSubmitting },
     setError,
     reset,
   } = useForm({
@@ -31,7 +31,7 @@ const SignUpForm = () => {
           setError("email", { message: error.message, type: "onChange" });
         }
       })}
-      className="flex flex-col gap-2"
+      className="flex flex-col gap-2 animate-smooth-appear"
     >
       <FormInput
         id="email"
@@ -58,7 +58,7 @@ const SignUpForm = () => {
       />
       <PrimaryButton
         disabled={isSubmitted && (!isValid || !isSubmitted)}
-        loading={false}
+        loading={isSubmitting}
         text="REGISTER"
         className="mt-6"
       />
