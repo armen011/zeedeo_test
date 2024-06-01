@@ -1,7 +1,6 @@
 "use client";
 
-import { FC } from "react";
-import { Controller, Control } from "react-hook-form";
+import { Controller, Control, FieldValues, Path } from "react-hook-form";
 import FormError from "./FormError";
 import FormLabel from "./FormLabel";
 import { twMerge } from "tailwind-merge";
@@ -12,9 +11,9 @@ type Option = {
   value: string;
 };
 
-type FormSelectProps = {
-  id: string;
-  control: Control<any>;
+type FormSelectProps<T extends FieldValues> = {
+  id: Path<T>;
+  control: Control<T>;
   options: Option[];
   label: string;
   error?: string;
@@ -24,7 +23,7 @@ type FormSelectProps = {
 
 const Select = dynamic(() => import("react-select/async"), { ssr: false });
 
-const FormSelect: FC<FormSelectProps> = ({
+const FormSelect = <T extends FieldValues>({
   id,
   control,
   options,
@@ -32,7 +31,7 @@ const FormSelect: FC<FormSelectProps> = ({
   error,
   placeholder,
   className,
-}) => {
+}: FormSelectProps<T>) => {
   return (
     <div className={twMerge("flex flex-col", className)}>
       <FormLabel id={id} label={label} />
@@ -40,12 +39,14 @@ const FormSelect: FC<FormSelectProps> = ({
         <Controller
           name={id}
           control={control}
-          render={({ field: { onChange, value } }) => (
+          render={({ field: { onChange, value, onBlur } }) => (
             <Select
               id={id}
               name={id}
               options={options}
+              noOptionsMessage={() => null}
               value={options.find((c) => c.value === value)}
+              onBlur={onBlur}
               onChange={(target) => {
                 const typedTarget = target as { value: string };
                 onChange(typedTarget?.value);

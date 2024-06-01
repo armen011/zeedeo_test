@@ -1,30 +1,29 @@
 import React, { useState, ChangeEvent, FC } from "react";
 import MaleIcon from "@/assets/icons/male.svg";
 import FemaleIcon from "@/assets/icons/female.svg";
-import { Control, Controller, FieldValues } from "react-hook-form";
+import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import FormLabel from "./form/FormLabel";
 import { twMerge } from "tailwind-merge";
 
-type PercentageIndicatorProps = {
+type PercentageIndicatorProps<T extends FieldValues> = {
   label?: string;
-  id: string;
+  id: Path<T>;
   className?: string;
-  control: Control<FieldValues, any>;
+  control: Control<T>;
 };
 
-const PercentageIndicator: FC<PercentageIndicatorProps> = ({
+const PercentageIndicator = <T extends FieldValues>({
   id,
   label,
   className,
   control,
-}) => {
+}: PercentageIndicatorProps<T>) => {
   return (
     <div className={twMerge("flex flex-col", className)}>
       <FormLabel id={id} label={label} />
       <Controller
         name={id}
         control={control}
-        defaultValue={50}
         render={({ field }) => {
           return (
             <div className="w-full relative flex flex-col gap-4">

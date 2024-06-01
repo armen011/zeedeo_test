@@ -9,23 +9,11 @@ import { schema } from "./schema";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-const countryOptions = [
-  { label: "United States", value: "us" },
-  { label: "Canada", value: "ca" },
-  { label: "Mexico", value: "mx" },
-  { label: "Mexico", value: "mx2" },
-  { label: "Mexico", value: "mx3" },
-  { label: "Mexico", value: "mx4" },
-  { label: "Mexico", value: "mx5" },
-  { label: "Mexico", value: "mx6" },
-];
-
 const LoginForm = () => {
   const router = useRouter();
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors, isValid, isSubmitted, isSubmitting },
     setError,
   } = useForm({
@@ -49,8 +37,6 @@ const LoginForm = () => {
         } else if (response?.error === "verification") {
           router.push(`/auth/verification?email=${data.email}`);
         } else {
-          console.log("Response ====>", response);
-
           setError("email", {
             message: response?.error || "User is not defined",
             type: "onChange",
@@ -74,20 +60,6 @@ const LoginForm = () => {
         error={errors.password}
         type="password"
       />
-
-      {/* <FormSelect
-        name="country"
-        control={control}
-        options={countryOptions}
-        label="Select a country"
-      /> */}
-
-      {/* <PercentageIndicator/> */}
-
-      {/* 
-      <CategoryButton title="Company" active>
-        <FlatIcon />
-      </CategoryButton> */}
 
       <div className="flex justify-between items-center my-4">
         <FormCheckbox

@@ -20,7 +20,6 @@ export const getLocation = async (token: string) => {
       headers: { Authorization: token },
     }
   );
-  console.log(locations.data.body);
 
   return locations.data.body;
 };
