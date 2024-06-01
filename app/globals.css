@@ -25,3 +25,20 @@ body {
     text-wrap: balance;
   }
 }
+
+.cropper-view-box {
+  outline: 0 !important;
+}
+.cropper-point.point-n,
+.cropper-point.point-s,
+.cropper-point.point-e,
+.cropper-point.point-w {
+  display: none !important;
+}
+.cropper-view-box {
+  border-radius: 50%;
+}
+.cropper-face,
+.cropper-line {
+  background-color: transparent !important;
+}

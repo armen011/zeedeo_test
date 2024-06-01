@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { schema } from "./schema";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import ProfileUpload from "@/components/ProfileUpload";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -62,6 +63,7 @@ const LoginForm = () => {
         error={errors.password}
         type="password"
       />
+      <ProfileUpload />
       <div className="flex justify-between items-center my-4">
         <FormCheckbox
           id="remember_me"
