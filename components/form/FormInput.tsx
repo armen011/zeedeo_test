@@ -7,7 +7,7 @@ import HideIcon from "@/assets/icons/hide_password.svg";
 import { twMerge } from "tailwind-merge";
 
 type ShowPasswordProps = {
-  type: "password" | "text";
+  type: "password" | "text" | "number";
   handleChange: () => void;
 };
 
@@ -31,7 +31,7 @@ type FormInputProps<T extends string> = {
   id: T;
   placeholder?: string;
   error?: FieldError;
-  type?: "password" | "text";
+  type?: "password" | "text" | "number";
   className?: string;
 } & UseFormRegisterReturn<T>;
 

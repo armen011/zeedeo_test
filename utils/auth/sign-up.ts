@@ -8,9 +8,14 @@ import { poolData } from "./utils";
 type RegisterUserPayloadType = {
   email: string;
   password: string;
+  profileId: string;
 };
 
-export const registerUser = ({ email, password }: RegisterUserPayloadType) => {
+export const registerUser = ({
+  email,
+  password,
+  profileId,
+}: RegisterUserPayloadType) => {
   const userPool = new CognitoUserPool(poolData);
 
   const nameAttribute = new CognitoUserAttribute({
@@ -21,12 +26,20 @@ export const registerUser = ({ email, password }: RegisterUserPayloadType) => {
     Name: "family_name",
     Value: email,
   });
+  const profileAttribute = new CognitoUserAttribute({
+    Name: "custom:profile_id",
+    Value: profileId,
+  });
+  const genderAttribute = new CognitoUserAttribute({
+    Name: "gender",
+    Value: "1",
+  });
 
   return new Promise<{ email: string }>((resolve, reject) => {
     userPool.signUp(
       email,
       password,
-      [nameAttribute, familyNameAttribute],
+      [nameAttribute, familyNameAttribute, profileAttribute, genderAttribute],
       [],
       (err, result) => {
         if (result) {
@@ -58,8 +71,7 @@ export const verifyUser = ({ email, code }: VerifyUserPayloadType) => {
   return new Promise<{ email: string }>((resolve, reject) => {
     cognitoUser.confirmRegistration(code, true, (err, result) => {
       if (result) {
-        resolve({ email: "" });
-        result;
+        resolve({ email });
       }
       if (err) {
         reject({ code: 400, message: "Incorrect OTP Code" });

@@ -1,8 +1,19 @@
 import ZeedeoIcon from "@/assets/icons/logo.svg";
 import Image from "next/image";
 import Catagories from "./Catagories";
+import { FC } from "react";
 
-const OnBoardingPage = () => {
+type TypeSelectViewProps = {
+  email: string;
+  password: string;
+  setError: (message: string) => void;
+};
+
+const TypeSelectView: FC<TypeSelectViewProps> = ({
+  email,
+  password,
+  setError,
+}) => {
   return (
     <main className="w-screen h-screen overflow-hidden flex relative">
       <ZeedeoIcon className="w-56 absolute bottom-8 left-4 hidden lg:block " />
@@ -14,8 +25,8 @@ const OnBoardingPage = () => {
         className="h-full hidden lg:block animate-smooth-appear"
         priority
       />
-      <div className="flex-grow h-full bg-white p-6 md:p-9">
-        <div className="w-full h-full flex flex-col max-w-[750px] mx-auto lg:mx-[unset] md:pt-[100px] lg:pl-[44px] max-h-full overflow-hidden">
+      <div className="flex-grow h-full flex flex-col justify-center bg-white p-6 md:p-9">
+        <div className="w-full lg:h-full flex flex-col max-w-[750px] mx-auto lg:mx-[unset] md:pt-[100px] lg:pl-[44px]">
           <h1 className="text-2xl font-semibold text-[#191919] mb-4 ml-3">
             Select your profile
           </h1>
@@ -23,11 +34,11 @@ const OnBoardingPage = () => {
             Choose your profile category that best fits your skills and
             preferences.
           </p>
-          <Catagories />
+          <Catagories email={email} password={password} setError={setError} />
         </div>
       </div>
     </main>
   );
 };
 
-export default OnBoardingPage;
+export default TypeSelectView;

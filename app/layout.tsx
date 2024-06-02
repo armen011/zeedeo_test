@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Source_Sans_3 } from "next/font/google";
 
 import "./globals.css";
@@ -12,6 +12,11 @@ export const metadata: Metadata = {
   icons: "/favicon.jpg",
 };
 
+export const viewport: Viewport = {
+  initialScale: 1,
+  maximumScale: 1,
+  width: "device-width",
+};
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -19,6 +24,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+        />
+      </head>
       <Providers>
         <body className={sourceSansPro.className}>{children}</body>
       </Providers>

@@ -1,28 +1,29 @@
 "use client";
 
-import { FC } from "react";
-import { Controller, Control } from "react-hook-form";
+import { Controller, Control, FieldValues, Path } from "react-hook-form";
 import FormError from "./FormError";
 import FormLabel from "./FormLabel";
 import { twMerge } from "tailwind-merge";
 import dynamic from "next/dynamic";
 
-type FormSelectProps = {
-  id: string;
-  control: Control<any>;
-  options: {
-    label: string;
-    value: string;
-  }[];
+type Option = {
+  label: string;
+  value: string;
+};
+
+type FormSelectProps<T extends FieldValues> = {
+  id: Path<T>;
+  control: Control<T>;
+  options: Option[];
   label: string;
   error?: string;
   placeholder?: string;
   className?: string;
 };
 
-const Select = dynamic(() => import("react-select"), { ssr: false });
+const Select = dynamic(() => import("react-select/async"), { ssr: false });
 
-const FormSelect: FC<FormSelectProps> = ({
+const FormSelect = <T extends FieldValues>({
   id,
   control,
   options,
@@ -30,7 +31,7 @@ const FormSelect: FC<FormSelectProps> = ({
   error,
   placeholder,
   className,
-}) => {
+}: FormSelectProps<T>) => {
   return (
     <div className={twMerge("flex flex-col", className)}>
       <FormLabel id={id} label={label} />
@@ -38,17 +39,43 @@ const FormSelect: FC<FormSelectProps> = ({
         <Controller
           name={id}
           control={control}
-          render={({ field: { onChange, value } }) => (
+          render={({ field: { onChange, value, onBlur } }) => (
             <Select
               id={id}
               name={id}
               options={options}
+              noOptionsMessage={() => null}
               value={options.find((c) => c.value === value)}
+              onBlur={onBlur}
               onChange={(target) => {
                 const typedTarget = target as { value: string };
                 onChange(typedTarget?.value);
               }}
+              loadOptions={(inputValue, callback) => {
+                const startsWith: Option[] = [];
+                const contains: Option[] = [];
+                options.forEach((option) => {
+                  if (
+                    option.label
+                      .toLowerCase()
+                      .startsWith(inputValue.toLowerCase())
+                  ) {
+                    startsWith.push(option);
+                  } else if (
+                    option.label
+                      .toLowerCase()
+                      .includes(inputValue.toLowerCase())
+                  ) {
+                    contains.push(option);
+                  }
+                });
+                callback([...startsWith, ...contains].slice(0, 100));
+              }}
+              defaultOptions={options.length > 100 ? undefined : options}
+              isDisabled={options.length === 0}
               placeholder={placeholder}
+              pageSize={20}
+              closeMenuOnScroll={true}
               styles={{
                 control: (base) => ({
                   ...base,

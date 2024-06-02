@@ -1,24 +1,25 @@
 import PercentageIndicator from "@/components/PercentageIndicator";
 import FormInput from "@/components/form/FormInput";
 import FormSelect from "@/components/form/FormSelect";
-import { getLocation } from "@/utils/options/location";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { FC } from "react";
-import { Control, FieldValues, UseFormRegister } from "react-hook-form";
+import { Control, FieldErrors, UseFormRegister } from "react-hook-form";
 import { getFirstStepOptions } from "./utils";
+import { OnBoardingFormType } from "./schema";
 
 type FirstStepProps = {
-  register: UseFormRegister<FieldValues>;
-  controller: Control<FieldValues, any>;
+  register: UseFormRegister<OnBoardingFormType>;
+  controller: Control<OnBoardingFormType>;
+  error: FieldErrors<OnBoardingFormType>;
 };
-const FirstStep: FC<FirstStepProps> = ({ register, controller }) => {
-  const { data } = useSession();
+const FirstStep: FC<FirstStepProps> = ({ register, controller, error }) => {
+  const { data, status } = useSession();
 
   const { data: options } = useQuery({
-    queryKey: ["country-first-step-options"],
-    queryFn: () => getFirstStepOptions(data?.user.token || ""),
-    enabled: !data?.user.token,
+    queryKey: ["country-first-step-options", status],
+    queryFn: getFirstStepOptions(data?.user.token || ""),
+    enabled: !!data?.user.token && status === "authenticated",
   });
 
   return (
@@ -28,6 +29,7 @@ const FirstStep: FC<FirstStepProps> = ({ register, controller }) => {
         label="Company name"
         placeholder="Enter your company name..."
         {...register("name")}
+        error={error.name}
       />
       <FormSelect
         id="industry"
@@ -35,6 +37,7 @@ const FirstStep: FC<FirstStepProps> = ({ register, controller }) => {
         placeholder="Select Industry ..."
         control={controller}
         options={options?.industryOptions || []}
+        error={error.industry?.message}
       />
       <FormSelect
         label="Add Location"
@@ -42,27 +45,31 @@ const FirstStep: FC<FirstStepProps> = ({ register, controller }) => {
         placeholder="Add location..."
         control={controller}
         options={options?.locationOptions || []}
+        error={error.location?.message}
       />
       <div className="flex flex-col sm:flex-row gap-2 md:gap-4">
         <FormInput
           id="funding_years"
           label="Years of founding"
+          type="number"
           placeholder="Years of founding..."
-          {...register("funding_years")}
+          {...register("founding_year")}
           className="w-full sm:w-1/2"
+          error={error.founding_year}
         />
         <FormSelect
           label="Average age"
-          id="age_group"
+          id="employees_range"
           placeholder="Select"
           control={controller}
           options={options?.ageRangeOptions || []}
           className="w-full sm:w-1/2"
+          error={error.employees_range?.message}
         />
       </div>
       <PercentageIndicator
         control={controller}
-        id="gender_percentage"
+        id="gender_percent"
         label="Gender Breakdown"
         className="mb-6"
       />

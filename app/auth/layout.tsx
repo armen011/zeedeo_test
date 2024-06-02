@@ -14,7 +14,11 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
   }, [status, router]);
 
   if (status === "loading" || status === "authenticated") {
-    return <div className="text-black">Loading...</div>;
+    return (
+      <div className="w-screen h-screen flex justify-center items-center">
+        <div className="loader" />
+      </div>
+    );
   }
 
   return children;
