@@ -46,7 +46,6 @@ const Catagories: FC<CatagoriesProps> = ({ email, password, setError }) => {
       router.push(`/auth/verification?email=${email}`);
     },
     onError: (err) => {
-      console.log("here", err);
       const error = err as { message: string };
       setError(error.message);
     },

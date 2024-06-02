@@ -1,7 +1,6 @@
 import { getOptions } from "@/utils/options";
 import { getLocation } from "@/utils/options/location";
 import { OnBoardingFormType } from "./schema";
-import { Path } from "react-hook-form";
 
 export const getFirstStepOptions = (token: string) => async () => {
   const locations = await getLocation(token);

@@ -5,6 +5,7 @@ import FormError from "./FormError";
 import FormLabel from "./FormLabel";
 import { twMerge } from "tailwind-merge";
 import dynamic from "next/dynamic";
+import { ReactNode } from "react";
 
 type Option = {
   label: string;
@@ -19,6 +20,7 @@ type FormSelectProps<T extends FieldValues> = {
   error?: string;
   placeholder?: string;
   className?: string;
+  children?: ReactNode;
 };
 
 const Select = dynamic(() => import("react-select/async"), { ssr: false });
@@ -31,11 +33,13 @@ const FormSelect = <T extends FieldValues>({
   error,
   placeholder,
   className,
+  children,
 }: FormSelectProps<T>) => {
   return (
     <div className={twMerge("flex flex-col", className)}>
       <FormLabel id={id} label={label} />
-      <div className="border rounded-[100px] border-[#3B0F84] relative h-[46px]">
+      <div className="flex  border rounded-[100px] border-[#3B0F84] relative h-[46px] px-3">
+        {children}
         <Controller
           name={id}
           control={control}
@@ -47,6 +51,7 @@ const FormSelect = <T extends FieldValues>({
               noOptionsMessage={() => null}
               value={options.find((c) => c.value === value)}
               onBlur={onBlur}
+              className="flex-grow"
               onChange={(target) => {
                 const typedTarget = target as { value: string };
                 onChange(typedTarget?.value);
@@ -81,8 +86,6 @@ const FormSelect = <T extends FieldValues>({
                   ...base,
                   border: "none",
                   boxShadow: "none",
-                  marginRight: "12px",
-                  marginLeft: "12px",
                   background: "transparent",
                   height: "46px",
                 }),

@@ -1,6 +1,5 @@
-import PhotoCropper from "@/components/PhotoCropper";
 import ProfileUpload from "@/components/ProfileUpload";
-import { FC, useState } from "react";
+import { FC } from "react";
 import { OnBoardingFormType } from "./schema";
 import { Control, Controller, FieldErrors } from "react-hook-form";
 
@@ -10,7 +9,6 @@ type SecondStepProps = {
 };
 
 const ThirdStep: FC<SecondStepProps> = ({ controller, error }) => {
-  const [image, setImage] = useState<File>();
   return (
     <div className="h-full flex flex-col justify-center">
       <Controller

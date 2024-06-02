@@ -87,16 +87,18 @@ const authOptions: AuthOptions = {
           };
         } else {
           const candidateData = await getCandidateData(Bearer);
+
           return {
             ...session,
             user: {
               isOnBoarded: basInfo.isOnboarded,
               token: Bearer,
               profileId: basInfo.profileId,
-              email: candidateData.email,
-              name: candidateData.name,
+              email: basInfo.email,
               isCompany: false,
               profileType: basInfo.profileType,
+              name: basInfo.name,
+              image: candidateData.image,
             },
           };
         }

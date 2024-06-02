@@ -17,12 +17,23 @@ type ProfileType = {
   description: string;
 };
 
+type CandidateStatusType = {
+  id: number;
+  name: string;
+  description: string;
+  type: "candidate";
+  updated_at: string;
+};
+
 export const getOptions = async () => {
   const industries = await axios.get<{
     body?: {
       employees_range?: OptionDataType[];
       industries?: OptionDataType[];
       profiles?: ProfileType[];
+      gender?: OptionDataType[];
+      visa_status?: OptionDataType[];
+      candidate_status?: CandidateStatusType[];
     };
   }>(getLocationUrl);
 

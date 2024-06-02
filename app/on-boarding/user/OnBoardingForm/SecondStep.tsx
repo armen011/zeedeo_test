@@ -2,44 +2,53 @@ import CurrentStatues from "@/components/CurrentStatues";
 import FormLabel from "@/components/form/FormLabel";
 import FormSelect from "@/components/form/FormSelect";
 import { FC } from "react";
-import { Control, FieldValues, UseFormRegister } from "react-hook-form";
+import { Control, Controller, FieldErrors } from "react-hook-form";
+import { UserOnBoardingFormType } from "./schema";
+import { useQuery } from "@tanstack/react-query";
+import { getSecondStepOptions } from "./utils";
 
 type SecondStepProps = {
-  register: UseFormRegister<FieldValues>;
-  controller: Control<FieldValues, any>;
+  controller: Control<UserOnBoardingFormType>;
+  error: FieldErrors<UserOnBoardingFormType>;
 };
 
-const SecondStep: FC<SecondStepProps> = ({ register, controller }) => {
-  const fn = () => {};
+const SecondStep: FC<SecondStepProps> = ({ controller, error }) => {
+  const { data: options } = useQuery({
+    queryKey: ["user-second-step-options"],
+    queryFn: getSecondStepOptions(),
+  });
+
   return (
     <div className="mt-4">
       <FormLabel id="" label="What is your current Statues?" />
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-4 max-h-[calc(100%-64px)] sm:max-h-[unset] overflow-auto mt-4">
-        <CurrentStatues
-          onClick={fn}
-          title="Open To Work"
-          paragraph="You have a job, but open to offers"
-          active
-        />
-        <CurrentStatues
-          onClick={fn}
-          title="Interviewing"
-          paragraph="Available soon but keen on Interviewing"
-          active
-        />
-        <CurrentStatues
-          onClick={fn}
-          title="Open to Jobk"
-          paragraph="Actively looking for an opportunity or Internship"
-          active
-        />
-      </div>
+      <Controller
+        name="status"
+        control={controller}
+        render={({ field }) => {
+          return (
+            <div className=" flex flex-wrap gap-2 mt-4 justify-center sm:justify-start">
+              {options?.candidateStatusOptions?.map(
+                ({ id, title, description }) => (
+                  <CurrentStatues
+                    key={id}
+                    onClick={() => field.onChange(id)}
+                    title={title}
+                    paragraph={description}
+                    active={id == field.value}
+                  />
+                )
+              )}
+            </div>
+          );
+        }}
+      />
+
       <FormSelect
-        id=""
+        id="visa_status"
         label="Do you require a Visa to work on UK?"
         placeholder="Yes, I require a Visa to work in the UK "
         control={controller}
-        options={[]}
+        options={options?.visaStatusOptions || []}
         className="mt-11"
       />
     </div>

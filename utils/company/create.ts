@@ -65,8 +65,6 @@ export const createCompany = async ({
     { data: { body: CreatedCompanyType } }
   >(companyCreateUrl, payload, { headers: { Authorization: token } });
 
-  console.log("Id====>", companyData);
-
   const responseData = await axios.post<FormData, { body: CreatedCompanyType }>(
     companyLogoUploadUrl.replace(
       "{{companyId}}",

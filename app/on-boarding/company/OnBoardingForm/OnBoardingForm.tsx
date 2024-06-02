@@ -67,8 +67,6 @@ const OnBoardingForm: FC<OnBoardingFormProps> = ({ step = 0 }) => {
     <form
       className="flex-grow flex flex-col justify-between overflow-y-auto"
       onSubmit={handleSubmit((formData) => {
-        console.log("here", formData.image);
-
         mutation.mutate({
           payload: {
             employees_range_id: Number(formData.employees_range),
@@ -99,6 +97,7 @@ const OnBoardingForm: FC<OnBoardingFormProps> = ({ step = 0 }) => {
               router.push(`/on-boarding/company?step=${Number(step) + 1}`);
             }
           }}
+          loading={mutation.isPending}
           disabled={
             !stepValidationKeys[step].every(
               (key) => (step !== 0 || touchedFields[key]) && !errors[key]

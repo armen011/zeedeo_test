@@ -7,6 +7,7 @@ import { FC } from "react";
 import { Control, FieldErrors, UseFormRegister } from "react-hook-form";
 import { getFirstStepOptions } from "./utils";
 import { OnBoardingFormType } from "./schema";
+import LocationIcon from "@/assets/icons/loaction.svg";
 
 type FirstStepProps = {
   register: UseFormRegister<OnBoardingFormType>;
@@ -46,7 +47,9 @@ const FirstStep: FC<FirstStepProps> = ({ register, controller, error }) => {
         control={controller}
         options={options?.locationOptions || []}
         error={error.location?.message}
-      />
+      >
+        <LocationIcon className="w-[14px]" />
+      </FormSelect>
       <div className="flex flex-col sm:flex-row gap-2 md:gap-4">
         <FormInput
           id="funding_years"
