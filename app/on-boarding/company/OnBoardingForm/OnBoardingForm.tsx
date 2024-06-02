@@ -49,8 +49,8 @@ const OnBoardingForm: FC<OnBoardingFormProps> = ({ step = 0 }) => {
     mutationFn: createCompany,
     onSuccess: (data) => {
       setSuccess(true);
-      router.push(`/on-boarding/company?step=3`);
       update();
+      router.push(`/on-boarding/company?step=3`);
     },
     onError: (err) => {
       console.log("error", err);

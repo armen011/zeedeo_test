@@ -50,13 +50,15 @@ const OnBoardingForm: FC<OnBoardingFormProps> = ({ step = 0 }) => {
     mutationFn: createCandidate,
     onSuccess: () => {
       setSuccess(true);
-      router.push(`/on-boarding/company?step=3`);
       update();
+      router.push(`/on-boarding/user?step=3`);
     },
   });
 
   const CurrentStep = steps[step as keyof typeof steps];
   const router = useRouter();
+
+  console.log(success);
 
   if (success) {
     return <Success />;

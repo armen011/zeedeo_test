@@ -18,8 +18,11 @@ const Success = () => {
     }, 1000);
     return () => clearInterval(interval);
   }, []);
+
   useEffect(() => {
     if (second === 0) {
+      console.log("Here");
+
       router.push("/");
     }
   }, [second, router]);
