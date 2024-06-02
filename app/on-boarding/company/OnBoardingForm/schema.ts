@@ -19,6 +19,7 @@ export const schema = yup.object().shape({
   goals: yup.array().of(yup.number()).min(1, "Select at least one goal."),
   gender_percent: yup.number().required(),
   employees_range: yup.string().required("Employees range is required"),
+  image: yup.string().required("File is required"),
 });
 
 export type OnBoardingFormType = yup.InferType<typeof schema>;

@@ -3,12 +3,13 @@
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import { FC, useRef } from "react";
+import CloseIcon from "@/assets/icons/close.svg";
 
-interface PhotoCropperProps {
-  image: File;
+type PhotoCropperProps = {
+  image?: File;
   onCrop: (croppedImage: string) => void;
   onCloseModal: () => void;
-}
+};
 
 const PhotoCropper: FC<PhotoCropperProps> = ({
   image,
@@ -24,12 +25,12 @@ const PhotoCropper: FC<PhotoCropperProps> = ({
     }
   };
 
-  const imageUrl = URL.createObjectURL(image);
+  const imageUrl = image ? URL.createObjectURL(image) : undefined;
   return (
     <div className="absolute w-full h-full top-0 left-0 bg-black/50 flex items-center justify-center z-50">
       <div className="w-fit h-fit max-w-[755px] max-h-[630px] bg-white rounded-sm flex flex-col justify-center items-end px-6 pt-4 pb-4">
         <div onClick={onCloseModal} className="text-black mb-4 cursor-pointer">
-          icon
+          <CloseIcon className="w-[14px]" />
         </div>
         <div className="bg-black w-fit h-fit">
           <Cropper

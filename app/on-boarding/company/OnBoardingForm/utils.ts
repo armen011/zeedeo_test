@@ -30,6 +30,6 @@ export const stepValidationKeys: Record<number, (keyof OnBoardingFormType)[]> =
   {
     [0]: ["name", "industry", "location", "founding_year", "employees_range"],
     [1]: ["goals"],
-    [2]: [],
+    [2]: ["image"],
     [3]: [],
   };
