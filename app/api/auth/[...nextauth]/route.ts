@@ -1,4 +1,6 @@
 import { logInUser } from "@/utils/auth/sign-in";
+import { getCandidateData } from "@/utils/candidate/get";
+import { getCompanyData } from "@/utils/company/get";
 import { getUserDetails } from "@/utils/user/details";
 import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -22,10 +24,9 @@ const authOptions: AuthOptions = {
         }
 
         const data = await logInUser(credentials);
-        const basInfo = await getUserDetails(data.idToken);
         return {
-          email: basInfo.email,
-          id: `${basInfo.id}`,
+          email: credentials.email,
+          id: `${credentials.email}`,
           accessToken: data.accessToken,
           idToken: data.idToken,
           accessTokenExpiration: data.accessTokenExpiration,
@@ -48,6 +49,7 @@ const authOptions: AuthOptions = {
       const Access = user ? `${user.accessToken}` : token.Access;
       const Bearer = user ? `${user.idToken}` : token.Bearer;
       const Refresh = user?.remember ? user.refreshToken : token.Refresh;
+      const email = user ? `${user.email}` : token.email;
 
       const Expiration = user ? user.accessTokenExpiration : token.Expiration;
 
@@ -55,7 +57,7 @@ const authOptions: AuthOptions = {
         throw new Error("Access token is missing");
       }
 
-      return { ...token, Access, Refresh, Bearer, Expiration };
+      return { ...token, Access, Refresh, Bearer, Expiration, email };
     },
     async session({ session, token, user }) {
       const Access = user ? `${user.accessToken}` : token.Access;
@@ -66,13 +68,49 @@ const authOptions: AuthOptions = {
       }
       const basInfo = await getUserDetails(Bearer);
 
+      if (basInfo.isOnboarded) {
+        if (basInfo.isCompany) {
+          const companyData = await getCompanyData(Bearer);
+
+          return {
+            ...session,
+            user: {
+              isOnBoarded: basInfo.isOnboarded,
+              token: Bearer,
+              isCompany: true,
+              profileId: basInfo.profileId,
+              email: companyData.email,
+              name: companyData.name,
+              profileType: basInfo.profileType,
+              image: companyData.picture,
+            },
+          };
+        } else {
+          const candidateData = await getCandidateData(Bearer);
+          return {
+            ...session,
+            user: {
+              isOnBoarded: basInfo.isOnboarded,
+              token: Bearer,
+              profileId: basInfo.profileId,
+              email: candidateData.email,
+              name: candidateData.name,
+              isCompany: false,
+              profileType: basInfo.profileType,
+            },
+          };
+        }
+      }
+
       return {
         ...session,
         user: {
+          isOnBoarded: false,
           email: basInfo.email,
-          name: basInfo.name,
-          isOnBoarded: basInfo.isOnboarded,
           token: Bearer,
+          profileId: basInfo.profileId,
+          profileType: basInfo.profileType,
+          isCompany: basInfo.isCompany,
         },
       };
     },

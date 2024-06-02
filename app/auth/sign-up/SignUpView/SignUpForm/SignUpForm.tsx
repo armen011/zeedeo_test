@@ -5,31 +5,35 @@ import { schema } from "./schema";
 import { useForm } from "react-hook-form";
 import FormInput from "@/components/form/FormInput";
 import PrimaryButton from "@/components/PrimaryButton";
-import { registerUser } from "@/utils/auth/sign-up";
 import { useRouter } from "next/navigation";
+import { FC, useEffect } from "react";
 
-const SignUpForm = () => {
+type SignUpFormProps = {
+  error: string | undefined;
+  setUser: (email: string, password: string) => void;
+};
+
+const SignUpForm: FC<SignUpFormProps> = ({ error, setUser }) => {
   const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors, isValid, isSubmitted, isSubmitting },
     setError,
-    reset,
   } = useForm({
     resolver: yupResolver(schema),
   });
+
+  useEffect(() => {
+    if (error) {
+      setError("email", { message: error });
+    }
+  }, [error, setError]);
+
   return (
     <form
-      onSubmit={handleSubmit(async (data) => {
-        try {
-          const { email } = await registerUser(data);
-          reset();
-          router.push(`/auth/verification?email=${email}`);
-        } catch (err) {
-          const error = err as { message: string };
-          setError("email", { message: error.message, type: "onChange" });
-        }
+      onSubmit={handleSubmit((data) => {
+        setUser(data.email, data.password);
       })}
       className="flex flex-col gap-2 animate-smooth-appear"
     >

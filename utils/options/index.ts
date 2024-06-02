@@ -11,11 +11,18 @@ type OptionDataType = {
   name: ResponseString;
 };
 
+type ProfileType = {
+  id: number;
+  name: string;
+  description: string;
+};
+
 export const getOptions = async () => {
   const industries = await axios.get<{
     body?: {
       employees_range?: OptionDataType[];
       industries?: OptionDataType[];
+      profiles?: ProfileType[];
     };
   }>(getLocationUrl);
 

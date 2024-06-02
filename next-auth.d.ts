@@ -10,6 +10,9 @@ declare module "next-auth" {
       token?: string;
       email?: string;
       isOnBoarded?: boolean;
+      isCompany?: boolean;
+      profileId?: number;
+      profileType?: string;
     } & DefaultSession["user"];
   }
   interface User extends AuthResponseType {
@@ -27,5 +30,6 @@ declare module "next-auth/jwt" {
     Bearer: string | undefined;
     Refresh: string | undefined;
     Expiration: number | undefined;
+    email: string | undefined;
   }
 }

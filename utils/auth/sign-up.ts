@@ -4,14 +4,18 @@ import {
   CognitoUser,
 } from "amazon-cognito-identity-js";
 import { poolData } from "./utils";
-import { createUser } from "../user/create";
 
 type RegisterUserPayloadType = {
   email: string;
   password: string;
+  profileId: string;
 };
 
-export const registerUser = ({ email, password }: RegisterUserPayloadType) => {
+export const registerUser = ({
+  email,
+  password,
+  profileId,
+}: RegisterUserPayloadType) => {
   const userPool = new CognitoUserPool(poolData);
 
   const nameAttribute = new CognitoUserAttribute({
@@ -22,25 +26,24 @@ export const registerUser = ({ email, password }: RegisterUserPayloadType) => {
     Name: "family_name",
     Value: email,
   });
+  const profileAttribute = new CognitoUserAttribute({
+    Name: "custom:profile_id",
+    Value: profileId,
+  });
+  const genderAttribute = new CognitoUserAttribute({
+    Name: "gender",
+    Value: "1",
+  });
 
   return new Promise<{ email: string }>((resolve, reject) => {
     userPool.signUp(
       email,
       password,
-      [nameAttribute, familyNameAttribute],
+      [nameAttribute, familyNameAttribute, profileAttribute, genderAttribute],
       [],
       (err, result) => {
         if (result) {
-          createUser({
-            email: email,
-            email_verified: 0,
-            first_name: "missing",
-            last_name: "missing",
-            gender: 1,
-            profile_id: 1,
-          }).then(() => {
-            resolve({ email: result.user.getUsername() });
-          });
+          resolve({ email: result.user.getUsername() });
         }
         if (err?.name === "UsernameExistsException") {
           reject({ code: 400, message: "The user already exists" });
@@ -68,7 +71,7 @@ export const verifyUser = ({ email, code }: VerifyUserPayloadType) => {
   return new Promise<{ email: string }>((resolve, reject) => {
     cognitoUser.confirmRegistration(code, true, (err, result) => {
       if (result) {
-        resolve({ email: "" });
+        resolve({ email });
       }
       if (err) {
         reject({ code: 400, message: "Incorrect OTP Code" });

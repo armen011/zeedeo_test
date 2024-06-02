@@ -32,7 +32,7 @@ const PrimaryButton: FC<PrimaryButtonProps> = ({
       )}
       type={type}
     >
-      {loading ? "Loading..." : text}
+      {loading ? <div className="button-loader mx-auto" /> : text}
     </button>
   );
 };
