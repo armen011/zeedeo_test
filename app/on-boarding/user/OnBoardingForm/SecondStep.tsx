@@ -42,14 +42,13 @@ const SecondStep: FC<SecondStepProps> = ({ controller, error }) => {
           );
         }}
       />
-
       <FormSelect
         id="visa_status"
         label="Do you require a Visa to work on UK?"
         placeholder="Yes, I require a Visa to work in the UK "
         control={controller}
         options={options?.visaStatusOptions || []}
-        className="mt-11"
+        className="mt-11 mb-11"
       />
     </div>
   );

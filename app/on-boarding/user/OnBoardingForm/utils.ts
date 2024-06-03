@@ -40,10 +40,10 @@ export const stepValidationKeys: Record<
   number,
   (keyof UserOnBoardingFormType)[]
 > = {
-  [0]: ["name", "role", "location", "gender"],
+  [0]: ["role", "location", "gender"],
   [1]: ["status", "visa_status"],
   [2]: ["jobs"],
   [3]: ["goals"],
   [4]: ["image"],
-  [6]: [],
+  [5]: [],
 };

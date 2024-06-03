@@ -28,6 +28,7 @@ const steps = {
   [2]: ThirdStep,
   [3]: FourthStep,
   [4]: FifthStep,
+  [5]: FifthStep,
 };
 
 const OnBoardingForm: FC<OnBoardingFormProps> = ({ step = 0 }) => {
@@ -51,14 +52,12 @@ const OnBoardingForm: FC<OnBoardingFormProps> = ({ step = 0 }) => {
     onSuccess: () => {
       setSuccess(true);
       update();
-      router.push(`/on-boarding/user?step=3`);
+      router.push(`/on-boarding/user?step=4`);
     },
   });
 
   const CurrentStep = steps[step as keyof typeof steps];
   const router = useRouter();
-
-  console.log(success);
 
   if (success) {
     return <Success />;
@@ -70,7 +69,6 @@ const OnBoardingForm: FC<OnBoardingFormProps> = ({ step = 0 }) => {
       onSubmit={handleSubmit((formData) => {
         mutation.mutate({
           payload: {
-            first_name: formData.name,
             goals: formData.goals?.map((goalId) => Number(goalId)) || [],
             interested_job: formData.role,
             job_plateforms: [],

@@ -7,7 +7,6 @@ type CreateCandidatePayloadType = {
   status_id: number;
   goals: number[];
   job_plateforms: number[];
-  first_name: string;
 };
 
 type CreatedCandidateType = {
@@ -51,15 +50,6 @@ export const createCandidate = async ({
       `${candidateData.data.body.id}`
     ),
     formData,
-    { headers: { Authorization: token } }
-  );
-
-  await axios.put<UpdateUserNamePayloadType>(
-    updateUsernameUrl,
-    {
-      first_name: payload.first_name,
-      last_name: payload.first_name,
-    },
     { headers: { Authorization: token } }
   );
 

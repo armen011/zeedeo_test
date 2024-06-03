@@ -1,8 +1,11 @@
 import CheckedIcon from "@/assets/icons/checked.svg";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../AuthContext";
+import { signIn } from "next-auth/react";
 
 const Success = () => {
+  const { user } = useContext(AuthContext);
   const [second, setSeconds] = useState(5);
   const router = useRouter();
 
@@ -21,9 +24,18 @@ const Success = () => {
 
   useEffect(() => {
     if (second === 0) {
-      router.push("/auth/sign-in");
+      if (user?.email && user.password) {
+        signIn("credentials", {
+          redirect: false,
+          email: user.email,
+          password: user.password,
+          remember: false,
+        });
+      } else {
+        router.push("/auth/sign-in");
+      }
     }
-  }, [second, router]);
+  }, [second, router, user]);
 
   return (
     <div className="flex flex-col items-center animate-smooth-appear">

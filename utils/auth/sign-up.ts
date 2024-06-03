@@ -6,12 +6,14 @@ import {
 import { poolData } from "./utils";
 
 type RegisterUserPayloadType = {
+  name: string;
   email: string;
   password: string;
   profileId: string;
 };
 
 export const registerUser = ({
+  name,
   email,
   password,
   profileId,
@@ -20,7 +22,7 @@ export const registerUser = ({
 
   const nameAttribute = new CognitoUserAttribute({
     Name: "name",
-    Value: email,
+    Value: name,
   });
   const familyNameAttribute = new CognitoUserAttribute({
     Name: "family_name",

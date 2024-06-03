@@ -10,8 +10,9 @@ import SecondaryButton from "@/components/SecondaryButton";
 import { getOptions } from "@/utils/options";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { FC, useState } from "react";
+import { useContext, useState } from "react";
 import { registerUser } from "@/utils/auth/sign-up";
+import { AuthContext } from "../../AuthContext";
 
 const companyCategories = [
   FlatIcon,
@@ -22,13 +23,9 @@ const companyCategories = [
   BookIcon,
 ];
 
-type CatagoriesProps = {
-  email: string;
-  password: string;
-  setError: (message: string) => void;
-};
+const Catagories = () => {
+  const { user, onError } = useContext(AuthContext);
 
-const Catagories: FC<CatagoriesProps> = ({ email, password, setError }) => {
   const [selectedProfileId, setSelectedProfileId] = useState<
     number | undefined
   >(undefined);
@@ -43,11 +40,11 @@ const Catagories: FC<CatagoriesProps> = ({ email, password, setError }) => {
   const mutation = useMutation({
     mutationFn: registerUser,
     onSuccess: () => {
-      router.push(`/auth/verification?email=${email}`);
+      router.push(`/auth/verification?email=${user?.email}`);
     },
     onError: (err) => {
       const error = err as { message: string };
-      setError(error.message);
+      onError(error.message);
     },
   });
 
@@ -74,8 +71,9 @@ const Catagories: FC<CatagoriesProps> = ({ email, password, setError }) => {
         className="w-full max-w-[258px] text-16 h-[45px] items-center text-white py-[unset] mt-10"
         onClick={() => {
           mutation.mutate({
-            email,
-            password,
+            name: user?.name || "",
+            email: user?.email || "",
+            password: user?.password || "",
             profileId: `${selectedProfileId}`,
           });
         }}

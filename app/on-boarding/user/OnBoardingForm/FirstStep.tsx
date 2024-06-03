@@ -31,13 +31,6 @@ const FirstStep: FC<FirstStepProps> = ({ register, controller, error }) => {
   return (
     <div className="flex flex-col gap-2 animate-smooth-appear">
       <FormInput
-        id="name"
-        label="Full name"
-        placeholder="Faris..."
-        {...register("name")}
-        error={error.name}
-      />
-      <FormInput
         id="role"
         label="What do  you do?"
         placeholder="Title, profession, studies,.."

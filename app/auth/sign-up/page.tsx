@@ -1,27 +1,17 @@
 "use client";
-
-import { useState } from "react";
+import { useContext } from "react";
 import SignUpView from "./SignUpView";
 import TypeSelectView from "./TypeSelectView";
+import { AuthContext } from "../AuthContext";
 
 const SignUpPage = () => {
-  const [user, setUser] = useState<
-    { email: string; password: string } | undefined
-  >(undefined);
-  const [error, setError] = useState<string | undefined>(undefined);
+  const { user, error } = useContext(AuthContext);
+
   if (user && !error) {
-    return <TypeSelectView {...user} setError={(msg) => setError(msg)} />;
+    return <TypeSelectView />;
   }
 
-  return (
-    <SignUpView
-      error={error}
-      setUser={(email, password) => {
-        setError(undefined);
-        setUser({ email, password });
-      }}
-    />
-  );
+  return <SignUpView />;
 };
 
 export default SignUpPage;

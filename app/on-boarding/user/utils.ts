@@ -30,6 +30,10 @@ const info = [
     title: "Upload your best profile  picture",
     paragraph: undefined,
   },
+  {
+    title: "",
+    paragraph: undefined,
+  },
 ];
 
 export const getTitleAndText = (step: number = 0) => {

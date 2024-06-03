@@ -1,19 +1,8 @@
 import ZeedeoIcon from "@/assets/icons/logo.svg";
 import Image from "next/image";
 import Catagories from "./Catagories";
-import { FC } from "react";
 
-type TypeSelectViewProps = {
-  email: string;
-  password: string;
-  setError: (message: string) => void;
-};
-
-const TypeSelectView: FC<TypeSelectViewProps> = ({
-  email,
-  password,
-  setError,
-}) => {
+const TypeSelectView = () => {
   return (
     <main className="w-screen h-screen overflow-hidden flex relative">
       <ZeedeoIcon className="w-56 absolute bottom-8 left-4 hidden lg:block " />
@@ -34,7 +23,7 @@ const TypeSelectView: FC<TypeSelectViewProps> = ({
             Choose your profile category that best fits your skills and
             preferences.
           </p>
-          <Catagories email={email} password={password} setError={setError} />
+          <Catagories />
         </div>
       </div>
     </main>

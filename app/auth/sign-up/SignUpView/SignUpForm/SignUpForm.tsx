@@ -5,16 +5,12 @@ import { schema } from "./schema";
 import { useForm } from "react-hook-form";
 import FormInput from "@/components/form/FormInput";
 import PrimaryButton from "@/components/PrimaryButton";
-import { useRouter } from "next/navigation";
-import { FC, useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { AuthContext } from "@/app/auth/AuthContext";
 
-type SignUpFormProps = {
-  error: string | undefined;
-  setUser: (email: string, password: string) => void;
-};
+const SignUpForm = () => {
+  const { onError, error, handleSetUser } = useContext(AuthContext);
 
-const SignUpForm: FC<SignUpFormProps> = ({ error, setUser }) => {
-  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -33,22 +29,30 @@ const SignUpForm: FC<SignUpFormProps> = ({ error, setUser }) => {
   return (
     <form
       onSubmit={handleSubmit((data) => {
-        setUser(data.email, data.password);
+        handleSetUser(data);
+        onError("");
       })}
       className="flex flex-col gap-2 animate-smooth-appear"
     >
       <FormInput
+        id="name"
+        {...register("name")}
+        label="Enter your full name"
+        placeholder="Add your full name"
+        error={errors.name}
+      />
+      <FormInput
         id="email"
         {...register("email")}
         label="Email"
-        placeholder="Your Email Address"
+        placeholder="Add  your email address "
         error={errors.email}
       />
       <FormInput
         id="password"
         {...register("password")}
         label="Password"
-        placeholder="Your password"
+        placeholder="Add your password"
         error={errors.password}
         type="password"
       />
