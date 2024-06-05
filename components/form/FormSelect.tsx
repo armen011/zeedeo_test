@@ -5,11 +5,13 @@ import FormError from "./FormError";
 import FormLabel from "./FormLabel";
 import { twMerge } from "tailwind-merge";
 import dynamic from "next/dynamic";
-import { ReactNode } from "react";
+import { FC, ReactNode, SVGProps, createElement } from "react";
+import { OptionProps, components } from "react-select";
 
 type Option = {
   label: string;
   value: string;
+  icon?: FC<SVGProps<SVGElement>>;
 };
 
 type FormSelectProps<T extends FieldValues> = {
@@ -47,6 +49,35 @@ const FormSelect = <T extends FieldValues>({
             <Select
               id={id}
               name={id}
+              components={{
+                Option: (optionData) => {
+                  const data = optionData as OptionProps<{
+                    label: string;
+                    icon?: FC<SVGProps<SVGElement>>;
+                  }>;
+                  return (
+                    <components.DropdownIndicator
+                      {...data}
+                      className={`cursor-pointer ${
+                        data.isFocused ? "bg-[#D91883]" : "bg-white"
+                      }`}
+                    >
+                      <div className="flex gap-2">
+                        {data.data.icon && (
+                          <span className="w-6">{<data.data.icon />}</span>
+                        )}
+                        <p
+                          className={`w-6 ${
+                            data.isFocused ? "text-white" : "text-black"
+                          }`}
+                        >
+                          {data.data.label}
+                        </p>
+                      </div>
+                    </components.DropdownIndicator>
+                  );
+                },
+              }}
               options={options}
               noOptionsMessage={() => null}
               value={options.find((c) => c.value === value)}

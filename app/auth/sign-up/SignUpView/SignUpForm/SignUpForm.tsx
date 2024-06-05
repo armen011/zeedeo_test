@@ -7,17 +7,69 @@ import FormInput from "@/components/form/FormInput";
 import PrimaryButton from "@/components/PrimaryButton";
 import { useContext, useEffect } from "react";
 import { AuthContext } from "@/app/auth/AuthContext";
+import FormSelect from "@/components/form/FormSelect";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getOptions } from "@/utils/options";
+import BookIcon from "@/assets/icons/book.svg";
+import FlashIcon from "@/assets/icons/flash.svg";
+import FlatIcon from "@/assets/icons/flat.svg";
+import PeopleIcon from "@/assets/icons/people.svg";
+import StudentIcon from "@/assets/icons/student.svg";
+import UniversityIcon from "@/assets/icons/university.svg";
+import { registerUser } from "@/utils/auth/sign-up";
+import { useRouter } from "next/navigation";
+
+const companyCategories = [
+  FlatIcon,
+  FlashIcon,
+  UniversityIcon,
+  PeopleIcon,
+  StudentIcon,
+  BookIcon,
+];
+
+const parseCategories = (
+  arr: {
+    id: number;
+    name: string;
+    description: string;
+  }[]
+) => {
+  return arr.map((item, idx) => ({
+    label: item.name,
+    value: String(item.id),
+    icon: companyCategories[idx],
+  }));
+};
 
 const SignUpForm = () => {
-  const { onError, error, handleSetUser } = useContext(AuthContext);
+  const { onError, error, handleSetUser, user } = useContext(AuthContext);
+  const router = useRouter();
 
   const {
     register,
     handleSubmit,
     formState: { errors, isValid, isSubmitted, isSubmitting },
     setError,
+    control,
   } = useForm({
     resolver: yupResolver(schema),
+  });
+
+  const { data: options } = useQuery({
+    queryKey: ["profile-options"],
+    queryFn: () => getOptions(),
+  });
+
+  const mutation = useMutation({
+    mutationFn: registerUser,
+    onSuccess: () => {
+      router.push(`/auth/verification?email=${user?.email}`);
+    },
+    onError: (err) => {
+      const error = err as { message: string };
+      onError(error.message);
+    },
   });
 
   useEffect(() => {
@@ -31,6 +83,12 @@ const SignUpForm = () => {
       onSubmit={handleSubmit((data) => {
         handleSetUser(data);
         onError("");
+        mutation.mutate({
+          name: data?.name || "",
+          email: data?.email || "",
+          password: data?.password || "",
+          profileId: data.profile || "",
+        });
       })}
       className="flex flex-col gap-2 animate-smooth-appear"
     >
@@ -41,10 +99,17 @@ const SignUpForm = () => {
         placeholder="Add your full name"
         error={errors.name}
       />
+      <FormSelect
+        id="profile"
+        control={control}
+        label="Select  your profile "
+        options={parseCategories(options?.profiles || [])}
+        placeholder="Select profile"
+      />
       <FormInput
         id="email"
         {...register("email")}
-        label="Email"
+        label="Enter your Email address"
         placeholder="Add  your email address "
         error={errors.email}
       />

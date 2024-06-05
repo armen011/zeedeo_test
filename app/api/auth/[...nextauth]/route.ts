@@ -41,7 +41,7 @@ const authOptions: AuthOptions = {
     strategy: "jwt",
   },
   pages: {
-    signIn: "/auth/sign-in",
+    signIn: "/auth/sign-up",
     error: "/not-found",
   },
   callbacks: {
