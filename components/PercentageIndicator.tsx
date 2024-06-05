@@ -1,9 +1,8 @@
-import React, { useState, ChangeEvent, FC } from "react";
-import MaleIcon from "@/assets/icons/male.svg";
 import FemaleIcon from "@/assets/icons/female.svg";
+import MaleIcon from "@/assets/icons/male.svg";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
-import FormLabel from "./form/FormLabel";
 import { twMerge } from "tailwind-merge";
+import FormLabel from "./form/FormLabel";
 
 type PercentageIndicatorProps<T extends FieldValues> = {
   label?: string;

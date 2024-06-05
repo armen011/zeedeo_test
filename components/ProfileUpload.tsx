@@ -36,7 +36,7 @@ const ProfileUpload: FC<ProfileUploadProps> = ({ onUpload, file }) => {
   };
 
   return (
-    <div className="flex justify-center items-center gap-4">
+    <div className="flex sm:flex-row flex-col justify-center items-center gap-4">
       {!!selectedFile && (
         <PhotoCropper
           image={selectedFile}
@@ -57,7 +57,7 @@ const ProfileUpload: FC<ProfileUploadProps> = ({ onUpload, file }) => {
           <ImageIcon className="w-[30px]" />
         )}
       </div>
-      <div className="flex flex-col gap-[10px]">
+      <div className="flex flex-col sm:items-start items-center gap-[10px]">
         <button className="relative w-fit p-3 rounded-[100px] border border-[#7B44D3] flex justify-center items-center gap-[10px] cursor-pointer">
           <input
             type="file"

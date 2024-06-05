@@ -42,7 +42,7 @@ const OnBoardingForm: FC<OnBoardingFormProps> = ({ step = 0 }) => {
       role: "CEO",
     },
     reValidateMode: "onChange",
-    mode: "onTouched",
+    mode: "all",
   });
 
   const mutation = useMutation({
