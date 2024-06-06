@@ -1,5 +1,6 @@
 import ResetIcon from "@/assets/icons/reset.svg";
 import { FC, useEffect, useState } from "react";
+import { twMerge } from "tailwind-merge";
 
 type ResendProps = {
   count: number;
@@ -26,27 +27,38 @@ const Resend: FC<ResendProps> = ({ count, handleResend }) => {
 
     return () => clearInterval(interval);
   }, [count]);
-  if (second === 0) {
-    return (
+
+  return (
+    <>
+      <div className="flex gap-2 items-center mx-auto w-fit">
+        <p className="text-16 text-[#5E5E5E] text-center">
+          Please wait in{" "}
+          <span className="text-[#D91883] font-bold">{second}</span> Second to
+          resend new OTP
+        </p>
+      </div>
       <button
         onClick={handleResend}
+        disabled={second !== 0}
         type="button"
         className="flex gap-2 items-center mx-auto w-fit"
       >
-        <ResetIcon className="w-[17px] h-[17px] [&>path]:fill-[#0A66C2]" />
-        <p className="text-16 text-[#0A66C2] text-center">Resend OTP Code</p>
+        <ResetIcon
+          className={twMerge(
+            "w-[17px] h-[17px]",
+            second !== 0 ? "[&>path]:fill-[#5E5E5E]" : "[&>path]:fill-[#0A66C2]"
+          )}
+        />
+        <p
+          className={twMerge(
+            "text-16 text-center",
+            second !== 0 ? "text-[#5E5E5E]" : "text-[#0A66C2] transition-colors"
+          )}
+        >
+          Resend OTP Code
+        </p>
       </button>
-    );
-  }
-  return (
-    <div className="flex gap-2 items-center mx-auto w-fit">
-      <ResetIcon className="w-[17px] h-[17px]" />
-      <p className="text-16 text-[#5E5E5E] text-center">
-        Please wait in{" "}
-        <span className="text-[#191919] font-bold">{second}</span> Second to
-        resend new OTP
-      </p>
-    </div>
+    </>
   );
 };
 

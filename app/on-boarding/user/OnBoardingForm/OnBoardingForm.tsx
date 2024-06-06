@@ -32,7 +32,7 @@ const steps = {
 };
 
 const OnBoardingForm: FC<OnBoardingFormProps> = ({ step = 0 }) => {
-  const [success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState(true);
   const { data: userData, update } = useSession();
 
   const {
@@ -52,7 +52,7 @@ const OnBoardingForm: FC<OnBoardingFormProps> = ({ step = 0 }) => {
     onSuccess: () => {
       setSuccess(true);
       update();
-      router.push(`/on-boarding/user?step=4`);
+      router.push(`/on-boarding/user?step=5`);
     },
   });
 
@@ -65,7 +65,7 @@ const OnBoardingForm: FC<OnBoardingFormProps> = ({ step = 0 }) => {
 
   return (
     <form
-      className="flex-grow flex flex-col justify-between overflow-y-auto"
+      className="sm:flex-grow flex flex-col justify-between overflow-y-auto"
       onSubmit={handleSubmit((formData) => {
         mutation.mutate({
           payload: {
@@ -82,7 +82,7 @@ const OnBoardingForm: FC<OnBoardingFormProps> = ({ step = 0 }) => {
       })}
     >
       <CurrentStep register={register} controller={control} error={errors} />
-      <div className="flex justify-between gap-2">
+      <div className="flex justify-between gap-2 mt-6 sm:mt-[unset]">
         <SecondaryButton
           onClick={() => router.back()}
           type="button"

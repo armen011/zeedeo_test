@@ -17,19 +17,20 @@ const CurrentStatues: FC<CurrentStatuesProps> = ({
     <button
       type="button"
       onClick={onClick}
-      className={twMerge(
-        "w-fit px-6 py-4 rounded-md flex items-center border gap-[6px]",
-        active ? "border-[#3B0F84]" : "border-[#A3A3A3]"
-      )}
+      className="w-fit px-3 sm:px-6 py-2 sm:py-4 rounded-md flex items-center border gap-[6px] border-[#3B0F84]"
     >
       <div className="text-start h-full">
-        <h2 className="text-[#3B0F84] text-18 font-bold ">{title}</h2>
-        <p className="text-14 text-[#5E5E5E] max-w-[100px]">{paragraph}</p>
+        <h2 className="text-[#3B0F84] text-16 sm:text-18 font-bold ">
+          {title}
+        </h2>
+        <p className="text-13 sm:text-14 text-[#5E5E5E] max-w-[100px]">
+          {paragraph}
+        </p>
       </div>
       <div
         className={twMerge(
           "w-[30px] h-[30px] flex-shrink-0 rounded-full border-[6px]",
-          active ? "border-[#D91883]" : "border-[#A3A3A3]"
+          active ? "border-[#D91883]" : "border-[#000000] border-opacity-25"
         )}
       ></div>
     </button>

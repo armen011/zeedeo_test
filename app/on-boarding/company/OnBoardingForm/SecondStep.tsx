@@ -47,7 +47,7 @@ const SecondStep: FC<SecondStepProps> = ({ controller, error }) => {
       control={controller}
       render={({ field }) => {
         return (
-          <div className="w-full ma-h-full flex flex-wrap gap-x-3 gap-y-5 justify-center">
+          <div className="w-full ma-h-full flex flex-wrap gap-x-3 gap-y-5 justify-center mb-6 sm:mb-[unset]">
             {options?.map(({ goal, id }) => (
               <Option
                 name={goal || ""}

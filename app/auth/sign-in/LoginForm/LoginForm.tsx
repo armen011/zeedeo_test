@@ -60,7 +60,7 @@ const LoginForm = () => {
         error={errors.password}
         type="password"
       />
-      <div className="flex justify-between items-center my-4">
+      <div className="flex justify-between items-center my-2 sm:my-4">
         <FormCheckbox
           id="remember_me"
           {...register("remember_me")}
@@ -75,7 +75,7 @@ const LoginForm = () => {
         loading={isSubmitting}
         text="SIGN IN"
       />
-      <div className="pt-6 mx-auto">
+      <div className="mt-2 sm:pt-6 mx-auto">
         <p className="text-[#191919] text-14">
           By proceeding, you agree to the
         </p>

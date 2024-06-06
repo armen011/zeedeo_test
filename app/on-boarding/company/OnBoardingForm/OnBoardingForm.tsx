@@ -27,7 +27,7 @@ const steps = {
 };
 
 const OnBoardingForm: FC<OnBoardingFormProps> = ({ step = 0 }) => {
-  const [success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState(true);
   const { data: userData, update } = useSession();
 
   const {
@@ -65,7 +65,7 @@ const OnBoardingForm: FC<OnBoardingFormProps> = ({ step = 0 }) => {
 
   return (
     <form
-      className="flex-grow flex flex-col justify-between overflow-y-auto"
+      className="sm:flex-grow flex flex-col justify-between overflow-y-auto"
       onSubmit={handleSubmit((formData) => {
         mutation.mutate({
           payload: {

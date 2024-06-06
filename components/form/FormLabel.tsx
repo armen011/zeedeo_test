@@ -10,7 +10,10 @@ const FormLabel: FC<FormLabelProps> = ({ label, id }) => {
     return null;
   }
   return (
-    <label htmlFor={id} className="text-sm mb-2 text-[#191919]">
+    <label
+      htmlFor={id}
+      className="text-13 sm:text-sm mb-1 sm:mb-2 text-[#191919]"
+    >
       {label}
     </label>
   );

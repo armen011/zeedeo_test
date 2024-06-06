@@ -67,7 +67,7 @@ const VerificationForm: FC<VerificationFormProps> = ({ email }) => {
                   classNames={{
                     container: "mx-auto gap-4 w-fit h-fit",
                     character:
-                      "w-[32px] sm:w-[64px] h-[38px] sm:h-[76px] border-[#57357C] rounded-[8px] flex justify-center items-center text-[#3B0F84] text-32 font-bold",
+                      "w-[32px] sm:w-[64px] h-[38px] sm:h-[76px] border-[#57357C] rounded-[8px] flex justify-center items-center text-[#3B0F84] text-16 sm:text-32 font-bold",
                     characterInactive: "bg-transparent",
                     characterSelected: "outline-[#57357C]",
                   }}
@@ -78,9 +78,6 @@ const VerificationForm: FC<VerificationFormProps> = ({ email }) => {
               </div>
             )}
           />
-          <p className="text-16 text-[#5E5E5E] text-center">
-            {"Didn't receive a verification code?"}
-          </p>
           <Resend
             count={resendCount}
             handleResend={() => {
@@ -99,8 +96,7 @@ const VerificationForm: FC<VerificationFormProps> = ({ email }) => {
                 });
             }}
           />
-
-          <div className="w-full flex items-center gap-5 md:gap-10 lg:gap-20 justify-center absolute bottom-9 left-0 sm:bottom-[42px] px-6 md:px-9">
+          <div className="w-full flex items-center gap-5 md:gap-10 lg:gap-20 justify-center mt-6 sm:mt-0 sm:absolute bottom-9 left-0 sm:bottom-[42px] px-6 md:px-9">
             <PrimaryButton
               text="Back"
               className="flex-grow max-w-[258px] text-13 h-[45px] text-white flex items-center justify-center"

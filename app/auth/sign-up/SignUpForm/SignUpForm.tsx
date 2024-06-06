@@ -105,7 +105,7 @@ const SignUpForm = () => {
         label="Select our profile "
         options={parseCategories(options?.profiles || [])}
         placeholder="Select profile"
-        // error={errors.profile}
+        error={errors.profile?.message}
       />
       <FormInput
         id="email"
@@ -134,9 +134,9 @@ const SignUpForm = () => {
         disabled={isSubmitted && (!isValid || !isSubmitted)}
         loading={isSubmitting}
         text="REGISTER"
-        className="mt-6"
+        className="mt-3 sm:mt-6"
       />
-      <div className="pt-6 mx-auto">
+      <div className="mt-2 sm:pt-6 mx-auto">
         <p className="text-[#191919] text-14">
           By proceeding, you agree to the
         </p>

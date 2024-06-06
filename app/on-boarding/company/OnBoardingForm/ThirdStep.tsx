@@ -10,7 +10,7 @@ type SecondStepProps = {
 
 const ThirdStep: FC<SecondStepProps> = ({ controller, error }) => {
   return (
-    <div className="h-full flex flex-col justify-center">
+    <div className="h-full flex flex-col justify-center mb-6 sm:mb-[unset]">
       <Controller
         name="image"
         control={controller}

@@ -14,7 +14,7 @@ type ShowPasswordProps = {
 const ShowPassword: FC<ShowPasswordProps> = ({ type, handleChange }) => {
   return (
     <div
-      className="absolute right-6 top-3 my-auto cursor-pointer"
+      className="absolute right-3 sm:right-6 top-2 sm:top-3 my-auto cursor-pointer"
       onClick={handleChange}
     >
       {type === "password" ? (
@@ -61,7 +61,7 @@ const FormInput = <T extends string>(
           {...otherProp}
           ref={ref}
           placeholder={placeholder}
-          className="outline-none bg-transparent px-6 py-3 w-full text-[#191919] text-14"
+          className="outline-none bg-transparent px-3 sm:px-6 py-2 sm:py-3 w-full text-[#191919] text-14"
         />
         {type === "password" && (
           <ShowPassword type={inputType} handleChange={handleTypeSelect} />

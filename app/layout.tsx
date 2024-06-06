@@ -3,6 +3,9 @@ import { Source_Sans_3 } from "next/font/google";
 
 import "./globals.css";
 import Providers from "./Providers";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
+import SaveUser from "./SaveUser";
 
 const sourceSansPro = Source_Sans_3({ subsets: ["latin"] });
 
@@ -31,6 +34,7 @@ export default function RootLayout({
         />
       </head>
       <Providers>
+        <SaveUser />
         <body className={sourceSansPro.className}>{children}</body>
       </Providers>
     </html>

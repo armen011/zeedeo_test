@@ -1,4 +1,3 @@
-import React, { useState, ChangeEvent, FC } from "react";
 import MaleIcon from "@/assets/icons/male.svg";
 import FemaleIcon from "@/assets/icons/female.svg";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
@@ -26,14 +25,14 @@ const PercentageIndicator = <T extends FieldValues>({
         control={control}
         render={({ field }) => {
           return (
-            <div className="w-full relative flex flex-col gap-4">
+            <div className="w-full relative flex flex-col gap-3 sm:gap-4">
               <div className="flex justify-between">
-                <div className="py-1 px-3 relative bg-[#0A66C2] rounded-md flex justify-center items-center gap-2 text-white">
+                <div className="py-1 px-2 sm:px-3 relative bg-[#0A66C2] rounded-md flex justify-center items-center gap-2 text-white">
                   <div className="w-2 h-2 rotate-45 -bottom-1 left-6 bg-[#0A66C2] absolute"></div>
                   <MaleIcon />
                   Male
                 </div>
-                <div className="py-1 px-3 relative bg-[#B33EBA] rounded-md flex justify-center items-center gap-2 text-white">
+                <div className="py-1 px-2 sm:px-3 relative bg-[#B33EBA] rounded-md flex justify-center items-center gap-2 text-white">
                   <div className="w-2 h-2 rotate-45 -bottom-1 left-6 bg-[#B33EBA] absolute"></div>
                   <FemaleIcon />
                   Female

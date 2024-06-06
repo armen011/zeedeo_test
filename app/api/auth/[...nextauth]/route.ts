@@ -113,6 +113,7 @@ const authOptions: AuthOptions = {
           profileId: basInfo.profileId,
           profileType: basInfo.profileType,
           isCompany: basInfo.isCompany,
+          name: basInfo.name,
         },
       };
     },

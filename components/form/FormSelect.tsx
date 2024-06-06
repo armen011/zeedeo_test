@@ -40,7 +40,7 @@ const FormSelect = <T extends FieldValues>({
   return (
     <div className={twMerge("flex flex-col", className)}>
       <FormLabel id={id} label={label} />
-      <div className="flex  border rounded-[100px] border-[#3B0F84] relative h-[46px] px-3">
+      <div className="flex border rounded-[100px] border-[#3B0F84] relative h-fit min-h-[36px] sm:h-[46px] sm:px-3">
         {children}
         <Controller
           name={id}
@@ -58,18 +58,20 @@ const FormSelect = <T extends FieldValues>({
                   return (
                     <components.DropdownIndicator
                       {...data}
-                      className={`cursor-pointer ${
+                      className={twMerge(
+                        `cursor-pointer`,
                         data.isFocused ? "bg-[#D91883]" : "bg-white"
-                      }`}
+                      )}
                     >
                       <div className="flex gap-2">
                         {data.data.icon && (
                           <span className="w-6">{<data.data.icon />}</span>
                         )}
                         <p
-                          className={`w-6 ${
+                          className={twMerge(
+                            `w-6 whitespace-nowrap`,
                             data.isFocused ? "text-white" : "text-black"
-                          }`}
+                          )}
                         >
                           {data.data.label}
                         </p>
@@ -118,7 +120,7 @@ const FormSelect = <T extends FieldValues>({
                   border: "none",
                   boxShadow: "none",
                   background: "transparent",
-                  height: "46px",
+                  height: "100%",
                 }),
                 menu: (base) => ({
                   ...base,

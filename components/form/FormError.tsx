@@ -10,9 +10,9 @@ const FormError: FC<FormErrorProps> = ({ message }) => {
     return null;
   }
   return (
-    <div className="flex items-center gap-2 mt-2">
+    <div className="flex items-center gap-2 mt-1 sm:mt-2">
       <WarningIcon className="w-4 h-4" />
-      <p className="text-14 text-[#FF015C]">{message} </p>
+      <p className="text-13 sm:text-14 text-[#FF015C]">{message} </p>
     </div>
   );
 };

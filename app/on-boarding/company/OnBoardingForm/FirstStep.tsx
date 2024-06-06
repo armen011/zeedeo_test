@@ -48,7 +48,7 @@ const FirstStep: FC<FirstStepProps> = ({ register, controller, error }) => {
         options={options?.locationOptions || []}
         error={error.location?.message}
       >
-        <LocationIcon className="w-[14px]" />
+        <LocationIcon className="w-[14px] ml-2" />
       </FormSelect>
       <div className="flex flex-col sm:flex-row gap-2 md:gap-4">
         <FormInput

@@ -47,7 +47,9 @@ const HomePage = () => {
             </tr>
           </tbody>
         </table>
-        <button onClick={() => signOut()}>Log Out</button>
+        <button onClick={() => signOut({ callbackUrl: "/auth/sign-in" })}>
+          Log Out
+        </button>
       </main>
     );
   }
