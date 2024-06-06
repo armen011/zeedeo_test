@@ -3,7 +3,12 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FC, ReactNode, createContext, useEffect, useState } from "react";
 
-type UserType = { name: string; email: string; password: string };
+type UserType = {
+  name: string;
+  email: string;
+  password: string;
+  profile: string;
+};
 
 export const AuthContext = createContext<{
   user: UserType | undefined;

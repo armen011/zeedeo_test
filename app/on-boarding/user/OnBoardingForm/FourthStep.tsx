@@ -31,7 +31,7 @@ const FourthStep: FC<FourthStepProps> = ({ controller }) => {
               {(Array.isArray(options) ? options : [])?.map(({ id }) => (
                 <SelectButton
                   key={id}
-                  title="Create short content topic "
+                  title="Create short content topic"
                   active={field.value?.includes(id) || false}
                   onClick={() => {
                     field.onBlur();

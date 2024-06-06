@@ -43,7 +43,7 @@ const parseCategories = (
 };
 
 const SignUpForm = () => {
-  const { onError, error, handleSetUser, user } = useContext(AuthContext);
+  const { onError, error, handleSetUser } = useContext(AuthContext);
   const router = useRouter();
 
   const {
@@ -63,8 +63,8 @@ const SignUpForm = () => {
 
   const mutation = useMutation({
     mutationFn: registerUser,
-    onSuccess: () => {
-      router.push(`/auth/verification?email=${user?.email}`);
+    onSuccess: (data) => {
+      router.push(`/auth/verification?email=${data?.email}`);
     },
     onError: (err) => {
       const error = err as { message: string };
@@ -102,9 +102,10 @@ const SignUpForm = () => {
       <FormSelect
         id="profile"
         control={control}
-        label="Select  your profile "
+        label="Select our profile "
         options={parseCategories(options?.profiles || [])}
         placeholder="Select profile"
+        // error={errors.profile}
       />
       <FormInput
         id="email"
