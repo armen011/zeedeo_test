@@ -17,7 +17,7 @@ const UserOnBoardingPage = async ({
         (url, idx) =>
           idx === step && (
             <Image
-              src={`/images/${url}.png`}
+              src={`/images/${url}.jpg`}
               width={450}
               height={786}
               alt="side_image"

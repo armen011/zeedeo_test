@@ -5,7 +5,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
   return (
     <main className="w-screen h-screen flex">
       <Image
-        src="/images/verification_background.png"
+        src="/images/verification_background.jpg"
         width={450}
         height={786}
         alt="side_image"

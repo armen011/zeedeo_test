@@ -9,8 +9,8 @@ const Layout = ({ children }: { children: ReactNode }) => {
     <main
       className={twMerge(
         userName
-          ? "bg-[url('/images/login_background_second.png')]"
-          : "bg-[url('/images/login_background.png')]",
+          ? "bg-[url('/images/login_background_second.jpg')]"
+          : "bg-[url('/images/login_background.jpg')]",
         "w-screen h-screen bg-no-repeat bg-cover bg-center relative px-2 sm:px-9 flex justify-center lg:justify-end items-center"
       )}
     >
