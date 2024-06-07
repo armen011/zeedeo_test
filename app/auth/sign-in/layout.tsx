@@ -22,10 +22,8 @@ const Layout = ({ children }: { children: ReactNode }) => {
             : "/images/login_background.jpg"
         }
         alt="Login background"
-        width={1090}
-        height={1080}
         priority
-        className="w-full h-full object-cover absolute left-0 top-0 -z-10"
+        className="w-full h-full object-cover absolute left-0 top-0 -z-10 animate-smooth-appear"
       />
       {children}
     </main>
