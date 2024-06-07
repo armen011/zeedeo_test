@@ -1,5 +1,7 @@
 "use client";
 
+import bgImage from "@/public/images/sign_up_background.jpg";
+
 import { ReactNode } from "react";
 import ZeedeoSticker from "../Components/ZeedeoSticker";
 import Image from "next/image";
@@ -8,7 +10,7 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
   return (
     <main className="w-screen h-screen bg-no-repeat bg-cover bg-center relative px-2 sm:px-9 flex flex-col lg:justify-center items-center lg:items-end overflow-y-auto">
       <Image
-        src="/images/sign_up_background.jpg"
+        src={bgImage}
         alt="Login background"
         priority
         className="w-full h-full object-cover absolute left-0 top-0 -z-10 animate-smooth-appear"
