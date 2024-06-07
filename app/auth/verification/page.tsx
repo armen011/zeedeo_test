@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 import React from "react";
 import VerificationForm from "./VerificationForm";
-import Expiration from "./VerificationForm/Expiration";
 
 const VerificationPage = ({
   searchParams,
